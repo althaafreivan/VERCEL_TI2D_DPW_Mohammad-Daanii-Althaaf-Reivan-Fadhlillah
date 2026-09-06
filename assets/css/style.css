@@ -168,3 +168,60 @@ footer{
   color: #7a8794;
   font-size: .9rem;
 }
+
+.nav-toggle{
+  display: none;
+}
+
+.nav-toggle-label{
+  display: none;
+  font-size: 1.6rem;
+  column-rule: #fff;
+  cursor: pointer;
+}
+
+@media(max-width: 768px){
+  main section:nth-of-type(2){
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+@media(max-width: 480px){
+  header{
+    position: relative;
+  }
+
+  .nav-toggle-label{
+    display: block;
+  }
+
+  header nav{
+    display: none;
+    width: 100%;
+    order: 3;
+    margin-top: 1rem;
+  }
+
+  .nav-toggle:checked ~ nav{
+    display: block;
+  }
+
+  header nav ul{
+    flex-direction: column;
+    gap: .75rem;
+  }
+  main section:nth-of-type(2){
+    grid-template-columns: 1fr;
+  }
+  
+form input, form select{
+  max-width: 100%;
+}
+}
+
+
+.table-responsive{
+  overflow-x: auto;
+}
+
