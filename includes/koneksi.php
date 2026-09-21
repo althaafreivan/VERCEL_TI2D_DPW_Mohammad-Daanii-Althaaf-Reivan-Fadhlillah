@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 // Konfigurasi koneksi basis data SIMPUS-Mini
 // Mendukung PostgreSQL via PDO (Direct / Pooler), Supabase REST API, dan SQLite Fallback.
 
@@ -111,7 +112,6 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
 
             $response = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
 
             if ($httpCode >= 200 && $httpCode < 300) {
                 return json_decode($response, true) ?: [];
@@ -137,7 +137,6 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
             ]);
             curl_setopt($ch, CURLOPT_TIMEOUT, 4);
             $resp = curl_exec($ch);
-            curl_close($ch);
 
             if (preg_match('/content-range:\s*(?:\d+-\d+|\*)\/(\d+)/i', (string)$resp, $matches)) {
                 return (int)$matches[1];

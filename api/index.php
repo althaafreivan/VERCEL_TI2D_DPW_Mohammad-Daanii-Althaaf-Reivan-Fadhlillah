@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Entrypoint Serverless Function untuk deployment di Vercel
 
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';

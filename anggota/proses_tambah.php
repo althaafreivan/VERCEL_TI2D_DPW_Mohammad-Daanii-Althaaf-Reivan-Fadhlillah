@@ -17,7 +17,11 @@ if ($noAnggota === '') {
 
 if (!empty($errors)) {
     $_SESSION['flash'] = ['type' => 'error', 'pesan' => implode(' ', $errors)];
-    header('Location: tambah.php');
+    if (!headers_sent()) {
+        header('Location: tambah.php');
+    } else {
+        echo "<script>location.replace('tambah.php');</script>";
+    }
     exit;
 }
 
@@ -34,5 +38,9 @@ $stmt->execute([
 ]);
 
 $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Anggota berhasil ditambahkan.'];
-header('Location: list.php');
+if (!headers_sent()) {
+    header('Location: list.php');
+} else {
+    echo "<script>location.replace('list.php');</script>";
+}
 exit;
