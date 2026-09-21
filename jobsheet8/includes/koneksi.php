@@ -3,14 +3,12 @@
 // Konfigurasi Basis Data (Supabase Cloud / PostgreSQL Lokal)
 // =========================================================================
 
-// Kredensial Supabase (isi bagian ini dengan data dari dashboard Supabase Anda)
-// Supabase Dashboard -> Project Settings -> Database
-$supabase_host = getenv('DB_HOST') ?: 'db.kwxjostfwuvxrpuskzxo.supabase.co';       // Contoh: aws-0-ap-southeast-1.pooler.supabase.com
-$supabase_port = getenv('DB_PORT') ?: '5432';   // Port pooler: 6543 atau direct: 5432
+// Kredensial Supabase (Region: Seoul ap-northeast-2 via Connection Pooler IPv4)
+$supabase_host = getenv('DB_HOST') ?: 'aws-0-ap-northeast-2.pooler.supabase.com';
+$supabase_port = getenv('DB_PORT') ?: '6543';
 $supabase_db   = getenv('DB_NAME') ?: 'postgres';
-$supabase_user = getenv('DB_USER') ?: 'postgres';       // Contoh: postgres.projectref atau postgres
-$supabase_pass = getenv('DB_PASS') ?: 'youneedastrongerpassword';       // Password database Supabase Anda
-
+$supabase_user = getenv('DB_USER') ?: 'postgres.kwxjostfwuvxrpuskzxo';
+$supabase_pass = getenv('DB_PASS') ?: 'youneedastrongerpassword';
 
 $pdo = null;
 $lastError = null;
@@ -28,7 +26,7 @@ if (!empty($supabase_host)) {
     }
 }
 
-// 2. Fallback otomatis ke PostgreSQL lokal jika Supabase belum diisi atau gagal
+// 2. Fallback otomatis ke PostgreSQL lokal jika Supabase tidak aktif / offline
 if (!$pdo) {
     $local_host = "localhost";
     $local_db   = "simpus_mini";

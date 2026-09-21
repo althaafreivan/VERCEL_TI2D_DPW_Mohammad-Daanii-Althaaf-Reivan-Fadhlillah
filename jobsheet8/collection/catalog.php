@@ -106,9 +106,16 @@ if ($cari !== '') {
             <?php foreach ($daftar_gambar as $item): ?>
                 <?php 
                     $file_gambar = $item['file_gambar'] ?? '';
-                    $path_fisik  = __DIR__ . '/../assets/uploads/' . $file_gambar;
-                    $ada_file    = !empty($file_gambar) && file_exists($path_fisik);
-                    $url_gambar  = $base . 'assets/uploads/' . htmlspecialchars($file_gambar);
+                    if (str_starts_with($file_gambar, 'data:image') || str_starts_with($file_gambar, 'http')) {
+                        $url_gambar = $file_gambar;
+                        $ada_file   = true;
+                    } elseif (!empty($file_gambar)) {
+                        $url_gambar = $base . 'assets/uploads/' . htmlspecialchars($file_gambar);
+                        $path_fisik = __DIR__ . '/../assets/uploads/' . $file_gambar;
+                        $ada_file   = file_exists($path_fisik);
+                    } else {
+                        $ada_file   = false;
+                    }
                 ?>
                 <article class="gallery-card">
                     <div class="gallery-thumb-wrap">
