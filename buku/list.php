@@ -52,6 +52,7 @@ $daftarBuku = $pdo->query("SELECT * FROM buku ORDER BY id DESC")->fetchAll(PDO::
                             <td><?php echo $buku['tahun']; ?></td>
                             <td><?php echo $buku['stok']; ?></td>
                             <td>
+                                <a href="edit.php?id=<?php echo $buku['id']; ?>" class="btn-edit">Edit</a>
                                 <a href="hapus.php?id=<?php echo $buku['id']; ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus <?php echo htmlspecialchars($buku['judul'], ENT_QUOTES); ?>?');">Hapus</a>
                             </td>
                         </tr>

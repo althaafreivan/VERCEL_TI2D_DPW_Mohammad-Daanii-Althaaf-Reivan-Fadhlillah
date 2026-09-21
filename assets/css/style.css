@@ -119,6 +119,7 @@ tbody tr:hover {
 }
 
 td button,
+td a.btn-edit,
 td a.btn-hapus {
     padding: 0.35rem 0.65rem;
     border: none;
@@ -129,9 +130,11 @@ td a.btn-hapus {
     display: inline-block;
 }
 
-td button:first-of-type {
+td button:first-of-type,
+td a.btn-edit {
     background-color: #f0ad4e;
     color: #fff;
+    margin-right: 0.35rem;
 }
 
 td button:last-of-type,

@@ -155,9 +155,37 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
             return $this->request($table . '?select=*&order=id.desc') ?? [];
         }
 
+        public function selectOne(string $table, int $id): ?array {
+            $res = $this->request($table . '?id=eq.' . $id . '&limit=1');
+            return !empty($res[0]) ? $res[0] : null;
+        }
+
         public function insert(string $table, array $data): ?int {
             $res = $this->request($table, 'POST', $data, ['Prefer: return=representation']);
             return isset($res[0]['id']) ? (int)$res[0]['id'] : 1;
+        }
+
+        public function update(string $table, int $id, array $data): bool {
+            $ch = curl_init($this->url . '/rest/v1/' . $table . '?id=eq.' . $id);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'apikey: ' . $this->key,
+                'Authorization: Bearer ' . $this->key,
+                'Content-Type: application/json',
+                'Prefer: return=representation',
+                'User-Agent: SIMPUS-Mini/1.0',
+            ]);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($httpCode >= 200 && $httpCode < 300) {
+                return true;
+            }
+            $err = json_decode($res, true);
+            $msg = $err['message'] ?? $err['details'] ?? "Database error HTTP $httpCode";
+            throw new PDOException($msg, (int)$httpCode);
         }
 
         public function delete(string $table, int $id): bool {
@@ -230,6 +258,47 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
         public function prepare(string $sql) {
             if (preg_match('/INSERT\s+INTO\s+(\w+)/i', $sql, $m)) {
                 return new SupabaseStatement($this->driver, $m[1]);
+            }
+
+            if (preg_match('/SELECT\s+\*\s+FROM\s+(\w+)\s+WHERE\s+id\s*=\s*:id/i', $sql, $m)) {
+                return new class($this->driver, $m[1]) {
+                    private SupabaseRestDriver $driver;
+                    private string $table;
+                    private ?array $data = null;
+                    public function __construct(SupabaseRestDriver $d, string $t) {
+                        $this->driver = $d;
+                        $this->table = $t;
+                    }
+                    public function execute(array $params = []): bool {
+                        $id = (int)($params['id'] ?? $params[':id'] ?? 0);
+                        $this->data = $this->driver->selectOne($this->table, $id);
+                        return $this->data !== null;
+                    }
+                    public function fetch(int $mode = PDO::FETCH_ASSOC): ?array {
+                        return $this->data;
+                    }
+                };
+            }
+
+            if (preg_match('/UPDATE\s+(\w+)\s+SET\s+(.+?)\s+WHERE\s+id\s*=\s*:id/i', $sql, $m)) {
+                return new class($this->driver, $m[1]) {
+                    private SupabaseRestDriver $driver;
+                    private string $table;
+                    public function __construct(SupabaseRestDriver $d, string $t) {
+                        $this->driver = $d;
+                        $this->table = $t;
+                    }
+                    public function execute(array $params = []): bool {
+                        $id = (int)($params['id'] ?? $params[':id'] ?? 0);
+                        $cleanData = [];
+                        foreach ($params as $k => $v) {
+                            $cleanKey = ltrim($k, ':');
+                            if ($cleanKey === 'id') continue;
+                            $cleanData[$cleanKey] = $v;
+                        }
+                        return $this->driver->update($this->table, $id, $cleanData);
+                    }
+                };
             }
 
             if (preg_match('/DELETE\s+FROM\s+(\w+)\s+WHERE\s+id\s*=\s*:id/i', $sql, $m)) {

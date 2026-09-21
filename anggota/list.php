@@ -52,6 +52,7 @@ $daftarAnggota = $pdo->query("SELECT * FROM anggota ORDER BY id DESC")->fetchAll
                             <td><?php echo $anggota['alamat']; ?></td>
                             <td><?php echo $anggota['no_hp']; ?></td>
                             <td>
+                                <a href="edit.php?id=<?php echo $anggota['id']; ?>" class="btn-edit">Edit</a>
                                 <a href="hapus.php?id=<?php echo $anggota['id']; ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus <?php echo htmlspecialchars($anggota['nama'], ENT_QUOTES); ?>?');">Hapus</a>
                             </td>
                         </tr>
