@@ -1,35 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 /* ==========================================================================
-   LowPolyTech — 3D Game Asset Store Design System
-   Sleek Dark Cyber / Game-Dev Aesthetic
+   LowPolyTech — 3D Game Asset Store (Neumorphism.io Edition)
+   Simple, Soft, Clean & Borderless Neumorphic Styling
    ========================================================================== */
 
 :root {
-    --bg-main: #1c1f2b;
-    --bg-surface: #242837;
-    --bg-surface-hover: #2b3042;
-    --bg-card: #222634;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(56, 189, 248, 0.4);
+    /* Base Surface Canvas */
+    --nm-bg: #e0e5ec;
 
-    /* Accents */
-    --accent-cyan: #38bdf8;
-    --accent-blue: #2563eb;
-    --accent-indigo: #818cf8;
-    --accent-purple: #c084fc;
-    --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
-    --accent-glow: 0 0 20px rgba(56, 189, 248, 0.25);
+    /* Neumorphism.io Shadows */
+    --nm-light: #ffffff;
+    --nm-dark: rgba(163, 177, 198, 0.55);
+    --nm-dark-soft: rgba(163, 177, 198, 0.35);
 
-    /* Text */
-    --text-title: #f8fafc;
-    --text-body: #94a3b8;
-    --text-dim: #64748b;
+    /* Shadow Elevations */
+    --nm-shadow-sm: 4px 4px 10px var(--nm-dark-soft), -4px -4px 10px var(--nm-light);
+    --nm-shadow-md: 7px 7px 18px var(--nm-dark-soft), -7px -7px 18px var(--nm-light);
+    --nm-shadow-lg: 10px 10px 24px var(--nm-dark-soft), -10px -10px 24px var(--nm-light);
+    --nm-shadow-hover: 12px 12px 28px var(--nm-dark-soft), -12px -12px 28px var(--nm-light);
+
+    /* Tactile Inset (Pressed / Active Click) */
+    --nm-shadow-pressed: inset 3px 3px 6px var(--nm-dark-soft), inset -3px -3px 6px var(--nm-light);
+
+    /* Typography & Accents */
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-soft: rgba(37, 99, 235, 0.08);
+    --success: #059669;
+    --text-title: #1e293b;
+    --text-body: #475569;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+
+    /* Flat Tag Surfaces */
+    --flat-subtle: rgba(0, 0, 0, 0.04);
+    --flat-subtle-hover: rgba(0, 0, 0, 0.07);
 
     /* Radii */
     --radius-sm: 8px;
     --radius-md: 14px;
-    --radius-lg: 20px;
+    --radius-lg: 22px;
     --radius-pill: 999px;
 }
 
@@ -37,11 +48,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    border: none;
+    outline: none;
 }
 
 body {
     font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-main);
+    background-color: var(--nm-bg);
     color: var(--text-body);
     line-height: 1.6;
     min-height: 100vh;
@@ -55,18 +68,12 @@ a {
     transition: all 0.2s ease;
 }
 
-a:hover {
-    color: var(--accent-cyan);
-}
-
 /* ==========================================================================
-   Header & Navbar
+   Header & Navbar (Soft Neumorphic Bar)
    ========================================================================== */
 header {
-    background: rgba(28, 31, 43, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border-subtle);
+    background-color: var(--nm-bg);
+    box-shadow: 0 4px 16px var(--nm-dark-soft);
     padding: 1.15rem 2rem;
     position: sticky;
     top: 0;
@@ -84,33 +91,35 @@ header h1 {
 }
 
 header h1 a {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--accent);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+header h1 a:hover {
+    color: var(--accent-hover);
 }
 
 header nav ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 header nav a {
-    font-size: 0.925rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 600;
     color: var(--text-body);
-    padding: 0.4rem 0.8rem;
+    padding: 0.45rem 0.9rem;
     border-radius: var(--radius-sm);
     transition: all 0.2s ease;
 }
 
 header nav a:hover {
-    color: var(--text-title);
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+    box-shadow: var(--nm-shadow-sm);
 }
 
 .nav-toggle-label {
@@ -118,7 +127,6 @@ header nav a:hover {
     font-size: 1.6rem;
     color: var(--text-title);
     background: none;
-    border: none;
     cursor: pointer;
 }
 
@@ -134,14 +142,14 @@ main {
 }
 
 /* ==========================================================================
-   Hero Section
+   Hero Section (Soft Floating Panel)
    ========================================================================== */
 .hero-section {
     text-align: center;
-    padding: 3.5rem 1.5rem 4.5rem;
-    position: relative;
-    background: radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.12) 0%, transparent 60%);
-    border-radius: var(--radius-lg);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-lg);
+    border-radius: 28px;
+    padding: 3.5rem 2rem 4rem;
     margin-bottom: 4rem;
 }
 
@@ -149,43 +157,38 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    color: var(--accent-cyan);
-    padding: 0.4rem 1.1rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.35rem 1rem;
     border-radius: var(--radius-pill);
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.775rem;
+    font-weight: 700;
     letter-spacing: 0.03em;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .badge-dot {
     width: 7px;
     height: 7px;
-    background-color: var(--accent-cyan);
+    background-color: var(--success);
     border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent-cyan);
 }
 
 .hero-headline {
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
     font-weight: 800;
     color: var(--text-title);
     letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin-bottom: 1.25rem;
-    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+    margin-bottom: 1rem;
 }
 
 .hero-subtext {
-    font-size: 1.1rem;
-    color: var(--text-body);
-    max-width: 760px;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 720px;
     margin: 0 auto 2.5rem;
-    line-height: 1.7;
+    line-height: 1.65;
 }
 
 .hero-actions {
@@ -198,65 +201,73 @@ main {
 }
 
 /* ==========================================================================
-   Buttons
+   Buttons (Neumorphic & Flat)
    ========================================================================== */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
+    padding: 0.75rem 1.4rem;
     border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 0.925rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s ease;
+    user-select: none;
 }
 
+/* Primary Neumorphic Button */
 .btn-primary {
-    background: var(--accent-gradient);
-    color: #ffffff;
-    box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    color: var(--accent);
 }
 
 .btn-primary:hover {
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(56, 189, 248, 0.5);
+    color: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 6px var(--nm-dark-soft), -2px -2px 6px var(--nm-light);
 }
 
+.btn-primary:active {
+    box-shadow: var(--nm-shadow-pressed);
+    transform: translateY(1px);
+}
+
+/* Secondary Button (Flat Subtle) */
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--flat-subtle);
     color: var(--text-title);
-    border: 1px solid var(--border-subtle);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    background: var(--flat-subtle-hover);
+    color: var(--accent);
 }
 
+.btn-secondary:active {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Outline / Link Button */
 .btn-outline {
     background: transparent;
-    color: var(--text-body);
-    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
 }
 
 .btn-outline:hover {
-    color: var(--text-title);
-    border-color: var(--accent-cyan);
+    color: var(--accent);
 }
 
 /* ==========================================================================
-   Hero Stats Strip
+   Hero Live Stats Strip
    ========================================================================== */
 .hero-stats {
     display: inline-flex;
     align-items: center;
-    background: rgba(36, 40, 55, 0.7);
-    border: 1px solid var(--border-subtle);
-    backdrop-filter: blur(8px);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
     border-radius: var(--radius-lg);
     padding: 1.25rem 2rem;
     gap: 2rem;
@@ -268,35 +279,35 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.15rem;
 }
 
 .stat-num {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
     font-weight: 800;
     color: var(--text-title);
     letter-spacing: -0.02em;
 }
 
 .stat-label {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.725rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    color: var(--text-light);
 }
 
 .stat-divider {
     width: 1px;
-    height: 36px;
-    background: var(--border-subtle);
+    height: 32px;
+    background: rgba(0, 0, 0, 0.08);
 }
 
 /* ==========================================================================
    Categories Section
    ========================================================================== */
 .categories-section {
-    margin-bottom: 5rem;
+    margin-bottom: 4.5rem;
 }
 
 .section-title-wrap {
@@ -316,13 +327,13 @@ main {
 }
 
 .section-tag {
-    font-size: 0.775rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--accent-cyan);
+    color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     display: block;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.35rem;
 }
 
 .section-title-wrap h2 {
@@ -335,31 +346,30 @@ main {
 .category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
 .category-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
     border-radius: var(--radius-md);
-    padding: 1.4rem;
+    padding: 1.35rem;
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    transition: all 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .category-card:hover {
-    background: var(--bg-surface-hover);
-    border-color: var(--border-hover);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    box-shadow: var(--nm-shadow-md);
 }
 
 .cat-icon {
-    font-size: 2rem;
-    width: 52px;
-    height: 52px;
-    background: rgba(255, 255, 255, 0.04);
+    font-size: 1.75rem;
+    width: 48px;
+    height: 48px;
+    background: var(--flat-subtle);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -368,28 +378,32 @@ main {
 }
 
 .cat-info h3 {
-    font-size: 1rem;
+    font-size: 0.975rem;
     font-weight: 700;
     color: var(--text-title);
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.15rem;
 }
 
 .cat-info p {
-    font-size: 0.825rem;
-    color: var(--text-dim);
+    font-size: 0.8rem;
+    color: var(--text-muted);
 }
 
 /* ==========================================================================
    Featured Asset Cards Grid
    ========================================================================== */
 .featured-section {
-    margin-bottom: 5rem;
+    margin-bottom: 4.5rem;
 }
 
 .link-more {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--accent-cyan);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.link-more:hover {
+    color: var(--accent-hover);
 }
 
 .asset-grid {
@@ -399,24 +413,23 @@ main {
 }
 
 .asset-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-md);
     border-radius: var(--radius-lg);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.25s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .asset-card:hover {
-    border-color: var(--border-hover);
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    transform: translateY(-3px);
+    box-shadow: var(--nm-shadow-hover);
 }
 
-/* Decorative 3D Preview Placeholder */
+/* Soft 3D Asset Preview Boxes */
 .asset-preview {
-    height: 180px;
+    height: 160px;
     position: relative;
     padding: 1rem;
     display: flex;
@@ -425,39 +438,33 @@ main {
 }
 
 .preview-dungeon {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%), 
-                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.25) 0%, transparent 50%);
+    background: linear-gradient(135deg, #d8dee9 0%, #cbd5e1 100%);
 }
 
 .preview-cyber {
-    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.3) 0%, transparent 50%);
+    background: linear-gradient(135deg, #dbeafe 0%, #cbd5e1 100%);
 }
 
 .preview-weapon {
-    background: linear-gradient(135deg, #312e81 0%, #1e293b 100%),
-                radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.3) 0%, transparent 50%);
+    background: linear-gradient(135deg, #e0e7ff 0%, #cbd5e1 100%);
 }
 
 .preview-creature {
-    background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%),
-                radial-gradient(circle at 80% 20%, rgba(52, 211, 153, 0.3) 0%, transparent 50%);
+    background: linear-gradient(135deg, #dcfce7 0%, #cbd5e1 100%);
 }
 
 .pack-badge {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--text-title);
     font-size: 0.725rem;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0.25rem 0.65rem;
     border-radius: var(--radius-pill);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .poly-badge {
-    background: rgba(56, 189, 248, 0.2);
-    color: var(--accent-cyan);
+    background: var(--accent);
+    color: #ffffff;
     font-size: 0.725rem;
     font-weight: 700;
     padding: 0.25rem 0.65rem;
@@ -465,7 +472,7 @@ main {
 }
 
 .asset-body {
-    padding: 1.5rem;
+    padding: 1.4rem;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -476,28 +483,32 @@ main {
     align-items: center;
     justify-content: space-between;
     font-size: 0.75rem;
-    color: var(--text-dim);
-    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    margin-bottom: 0.4rem;
 }
 
 .asset-rating {
-    color: #fbbf24;
-    font-weight: 600;
+    color: #d97706;
+    font-weight: 700;
 }
 
 .asset-title {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-title);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.45rem;
     line-height: 1.35;
+}
+
+.asset-title a:hover {
+    color: var(--accent);
 }
 
 .asset-desc {
     font-size: 0.85rem;
-    color: var(--text-body);
+    color: var(--text-muted);
     margin-bottom: 1.25rem;
-    line-height: 1.5;
+    line-height: 1.55;
     flex: 1;
 }
 
@@ -509,13 +520,12 @@ main {
 }
 
 .asset-tags .tag {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-subtle);
+    background: var(--flat-subtle);
     font-size: 0.7rem;
     font-weight: 600;
-    color: var(--text-dim);
+    color: var(--text-muted);
     padding: 0.2rem 0.55rem;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 .asset-footer {
@@ -523,115 +533,100 @@ main {
     align-items: center;
     justify-content: space-between;
     padding-top: 1rem;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .asset-price {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--accent-cyan);
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: var(--accent);
 }
 
 .btn-card {
-    font-size: 0.825rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     color: var(--text-title);
-    background: rgba(255, 255, 255, 0.08);
-    padding: 0.45rem 0.85rem;
+    background: var(--flat-subtle);
+    padding: 0.4rem 0.85rem;
     border-radius: var(--radius-sm);
     transition: all 0.2s ease;
 }
 
 .btn-card:hover {
-    background: var(--accent-cyan);
-    color: #0f172a;
+    background: var(--accent);
+    color: #ffffff;
 }
 
 /* ==========================================================================
-   Features Section
+   Features Section (Why Choose LowPolyTech)
    ========================================================================== */
 .features-section {
-    margin-bottom: 5rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: 3.5rem 2.5rem;
+    margin-bottom: 4.5rem;
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-md);
+    border-radius: 24px;
+    padding: 3.25rem 2.25rem;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-    margin-top: 2.5rem;
+    margin-top: 2.25rem;
 }
 
 .feature-item {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.65rem;
 }
 
 .feature-icon {
-    font-size: 2.25rem;
-    width: 58px;
-    height: 58px;
-    background: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    border-radius: 16px;
+    font-size: 2rem;
+    width: 52px;
+    height: 52px;
+    background: var(--flat-subtle);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .feature-item h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-title);
 }
 
 .feature-item p {
-    font-size: 0.925rem;
-    color: var(--text-body);
+    font-size: 0.9rem;
+    color: var(--text-muted);
     line-height: 1.6;
 }
 
 /* ==========================================================================
-   CTA Banner
+   CTA Banner (Soft Neumorphic Box)
    ========================================================================== */
 .cta-banner {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: var(--radius-lg);
-    padding: 3.5rem 2rem;
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-lg);
+    border-radius: 24px;
+    padding: 3.25rem 2rem;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.cta-banner::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
-    pointer-events: none;
 }
 
 .cta-content h2 {
-    font-size: 2rem;
+    font-size: 1.85rem;
     font-weight: 800;
     color: var(--text-title);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
     letter-spacing: -0.02em;
 }
 
 .cta-content p {
-    font-size: 1.05rem;
-    color: var(--text-body);
-    max-width: 620px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 600px;
     margin: 0 auto 2rem;
 }
 
@@ -647,17 +642,17 @@ main {
    Footer
    ========================================================================== */
 footer {
-    background: rgba(28, 31, 43, 0.95);
-    border-top: 1px solid var(--border-subtle);
-    padding: 2.25rem 1.5rem;
+    background: var(--nm-bg);
+    box-shadow: 0 -4px 16px var(--nm-dark-soft);
+    padding: 2rem 1.5rem;
     text-align: center;
-    color: var(--text-dim);
+    color: var(--text-muted);
     font-size: 0.875rem;
     margin-top: auto;
 }
 
 footer strong {
-    color: var(--text-body);
+    color: var(--text-title);
 }
 
 /* ==========================================================================
@@ -678,7 +673,7 @@ footer strong {
         order: 3;
         margin-top: 1rem;
         padding-top: 1rem;
-        border-top: 1px solid var(--border-subtle);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
     }
 
     header nav.nav-open {
@@ -696,10 +691,15 @@ footer strong {
         padding: 0.6rem 0.5rem;
     }
 
+    .hero-section {
+        padding: 2.5rem 1.25rem 3rem;
+        border-radius: 20px;
+    }
+
     .hero-stats {
         flex-direction: column;
-        gap: 1.25rem;
-        padding: 1.25rem 1.5rem;
+        gap: 1rem;
+        padding: 1.25rem;
         width: 100%;
     }
 
@@ -717,6 +717,6 @@ footer strong {
     }
 
     .features-section {
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.25rem;
     }
 }
