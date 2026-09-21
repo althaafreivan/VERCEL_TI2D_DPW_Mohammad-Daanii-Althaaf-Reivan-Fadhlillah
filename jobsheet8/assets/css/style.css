@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
 /* ==========================================================================
    LowPolyTech — 3D Game Asset Store (Neumorphism.io Edition)
-   Simple, Soft, Clean & Borderless Neumorphic Styling
+   Simple, Soft, Clean & Instant Load (No Onload Animation / Pop)
    ========================================================================== */
 
 :root {
@@ -65,7 +63,10 @@ body {
 a {
     color: inherit;
     text-decoration: none;
-    transition: all 0.2s ease;
+}
+
+a:hover {
+    transition: color 0.15s ease;
 }
 
 /* ==========================================================================
@@ -99,6 +100,27 @@ header h1 a {
 
 header h1 a:hover {
     color: var(--accent-hover);
+    transition: color 0.15s ease;
+}
+
+.btn-login {
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.45rem 1.15rem;
+    border-radius: var(--radius-sm);
+}
+
+.btn-login:hover {
+    color: var(--accent-hover);
+    box-shadow: 2px 2px 6px var(--nm-dark-soft), -2px -2px 6px var(--nm-light);
+    transition: box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.btn-login:active {
+    box-shadow: var(--nm-shadow-pressed);
 }
 
 header nav ul {
@@ -114,12 +136,12 @@ header nav a {
     color: var(--text-body);
     padding: 0.45rem 0.9rem;
     border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
 }
 
 header nav a:hover {
     color: var(--accent);
     box-shadow: var(--nm-shadow-sm);
+    transition: color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .nav-toggle-label {
@@ -213,7 +235,6 @@ main {
     font-size: 0.925rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
     user-select: none;
 }
 
@@ -228,6 +249,7 @@ main {
     color: var(--accent-hover);
     transform: translateY(-1px);
     box-shadow: 2px 2px 6px var(--nm-dark-soft), -2px -2px 6px var(--nm-light);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 
 .btn-primary:active {
@@ -244,6 +266,7 @@ main {
 .btn-secondary:hover {
     background: var(--flat-subtle-hover);
     color: var(--accent);
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .btn-secondary:active {
@@ -258,6 +281,7 @@ main {
 
 .btn-outline:hover {
     color: var(--accent);
+    transition: color 0.15s ease;
 }
 
 /* ==========================================================================
@@ -357,12 +381,12 @@ main {
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .category-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--nm-shadow-md);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .cat-icon {
@@ -404,6 +428,7 @@ main {
 
 .link-more:hover {
     color: var(--accent-hover);
+    transition: color 0.15s ease;
 }
 
 .asset-grid {
@@ -419,12 +444,12 @@ main {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .asset-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--nm-shadow-hover);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 /* Soft 3D Asset Preview Boxes */
@@ -502,6 +527,7 @@ main {
 
 .asset-title a:hover {
     color: var(--accent);
+    transition: color 0.15s ease;
 }
 
 .asset-desc {
@@ -549,17 +575,17 @@ main {
     background: var(--flat-subtle);
     padding: 0.4rem 0.85rem;
     border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
 }
 
 .btn-card:hover {
     background: var(--accent);
     color: #ffffff;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 /* ==========================================================================
    Features Section (Why Choose LowPolyTech)
-   ========================================================================== */
+   ========================================================================= */
 .features-section {
     margin-bottom: 4.5rem;
     background: var(--nm-bg);
