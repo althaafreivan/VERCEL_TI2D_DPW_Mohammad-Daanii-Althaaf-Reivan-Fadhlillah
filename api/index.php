@@ -28,14 +28,20 @@ if (str_starts_with($path, '/buku/') || str_starts_with($path, '/anggota/')) {
     exit;
 }
 
-// 3. Resolusi path berkas target
+// 3. Pastikan direktori selalu berakhiran slash (/) agar path relatif HTML/CSS bekerja presisi
+$rawPath = rtrim($projectRoot . $path, '/\\');
+if ($path !== '/' && is_dir($rawPath) && !str_ends_with($path, '/')) {
+    $qs = !empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '';
+    header("Location: " . $path . '/' . $qs, true, 301);
+    exit;
+}
+
+// 4. Resolusi path berkas target
 $targetRel = $path;
 
 if ($path === '/' || $path === '') {
     $targetRel = '/index.php';
 } else {
-    $rawPath = rtrim($projectRoot . $path, '/\\');
-
     if (is_dir($rawPath)) {
         if (file_exists($rawPath . '/index.php')) {
             $targetRel = rtrim($path, '/') . '/index.php';
@@ -53,7 +59,7 @@ if ($path === '/' || $path === '') {
 
 $targetFile = realpath($projectRoot . $targetRel);
 
-// 4. Validasi keamanan direktori berkas
+// 5. Validasi keamanan direktori berkas
 if (!$targetFile || !str_starts_with($targetFile, $projectRoot) || !is_file($targetFile)) {
     http_response_code(404);
     echo "<h1>404 Not Found</h1><p>Halaman atau berkas tidak ditemukan: " . htmlspecialchars($path) . "</p>";
@@ -63,7 +69,7 @@ if (!$targetFile || !str_starts_with($targetFile, $projectRoot) || !is_file($tar
 $normalizedRel = str_replace('\\', '/', substr($targetFile, strlen($projectRoot)));
 $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-// 5. Layani berkas statis jika berkas bukan PHP
+// 6. Layani berkas statis jika berkas bukan PHP
 $mimeTypes = [
     'html' => 'text/html; charset=UTF-8',
     'css'  => 'text/css; charset=UTF-8',
@@ -86,7 +92,7 @@ if ($ext !== 'php') {
     exit;
 }
 
-// 6. Eksekusi berkas dinamis PHP
+// 7. Eksekusi berkas dinamis PHP
 $_SERVER['SCRIPT_FILENAME'] = $targetFile;
 $_SERVER['PHP_SELF'] = $normalizedRel;
 chdir(dirname($targetFile));
