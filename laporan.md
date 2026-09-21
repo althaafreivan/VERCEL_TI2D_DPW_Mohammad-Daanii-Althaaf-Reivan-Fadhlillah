@@ -1,33 +1,33 @@
-# Jobsheet 6
+# Jobsheet 8
 Nama: Mohammad Daanii Althaaf Reivan Fadhlillah <br>
 Kelas: TI 2D <br>
 NIM: 254107020123 <br>
 
 
 ## Tugas Mandiri
-1. Penerapan komunikasi asinkron menggunakan Fetch API dan format pertukaran data JSON pada antarmuka SIMPUS-Mini:
-- Pembuatan berkas sumber data statis `data/buku.json` (10 data buku) dan `data/anggota.json` (4 data anggota) sebagai representasi sementara antarmuka API.
-- Pemuatan data tabel secara asinkron (`async/await` dan `fetch()`) pada halaman Daftar Buku (`assets/js/buku.js`) dan Daftar Anggota (`assets/js/anggota.js`) dengan mengosongkan `<tbody>` statis.
-- Penyediaan indikator pemuatan (*loading indicator*) yang tampil selama proses penarikan data berlangsung dengan simulasi jeda jaringan (*delay* 600ms).
-- Penanganan galat jaringan (*error handling*) terstruktur menggunakan blok `try...catch...finally` yang menampilkan pesan galat informatif di dalam tabel saat proses fetch gagal.
-- Penerapan pola *Event Delegation* pada tombol Hapus di `assets/js/app.js` (`document.addEventListener("click", ...)`) untuk menangani interaksi pada elemen baris tabel yang dirender secara dinamis setelah dokumen selesai dimuat.
+1. Menghubungkan aplikasi SIMPUS-Mini dengan basis data relasional PostgreSQL menggunakan ekstensi PDO (PHP Data Objects):
+- Perancangan dan pembuatan skema basis data `simpus_mini` melalui berkas DDL `sql/01_buku_anggota.sql` yang mendefinisikan tabel `buku` dan `anggota`.
+- Pembuatan modul koneksi basis data terpusat pada `includes/koneksi.php` menggunakan PDO driver `pgsql` yang dilengkapi penanganan eksepsi `try...catch (PDOException $e)`.
+- Migrasi penyimpanan data dari array sementara `$_SESSION` menjadi penyimpanan persisten di tabel PostgreSQL pada `buku/proses_tambah.php` dan `anggota/proses_tambah.php` menggunakan *prepared statement* (`$pdo->prepare()` dan `$stmt->execute()`) dengan klausa `RETURNING id`.
+- Pembacaan dan perenderan data dinamis pada halaman Daftar Buku dan Daftar Anggota menggunakan kueri SQL `SELECT * FROM ... ORDER BY id DESC` dan method `fetchAll(PDO::FETCH_ASSOC)`.
+- Pembaruan informasi kartu statistik pada Beranda (`index.php`) secara real-time langsung dari basis data menggunakan kueri agregasi `SELECT COUNT(*) FROM ...` dan method `fetchColumn()`.
 
 ## Latihan Reflektif
 
-1. Mengapa pemeriksaan status `res.ok` harus dilakukan secara manual di dalam blok `try` saat menggunakan `fetch()`? Karena Promise yang dihasilkan oleh `fetch()` tidak otomatis mengalami penolakan (*reject*) saat server memberikan kode status galat HTTP seperti 404 (Not Found) atau 500 (Internal Server Error). `fetch()` hanya melakukan *reject* jika terjadi kegagalan jaringan tingkat fisik (seperti koneksi internet terputus), sehingga pemeriksaan `if (!res.ok) throw new Error(...)` wajib ditulis secara eksplisit agar respons HTTP yang tidak berhasil dapat diteruskan ke blok penanganan galat `catch`.
-2. Mengapa tombol Hapus pada baris tabel yang dirender secara dinamis via `fetch` membutuhkan teknik *Event Delegation* (`document.addEventListener("click")`) alih-alih `querySelectorAll(".btn-hapus").forEach(...)`? Ketika kode inisialisasi dijalankan saat event `DOMContentLoaded`, elemen baris tabel (`<tr>`) dan tombol aksi belum terbentuk di dalam DOM karena proses `fetch` masih berlangsung secara asinkron di latar belakang. Jika menggunakan `querySelectorAll`, pencarian tersebut akan menghasilkan NodeList kosong; dengan *Event Delegation*, listener didaftarkan pada elemen leluhur permanen (`document`) dan memanfaatkan sifat perambatan event (*event bubbling*) serta `e.target.closest(".btn-hapus")` untuk merespons klik tombol baru kapan pun elemen tersebut diciptakan.
-3. Mengapa pengujian antarmuka yang menggunakan `fetch()` terhadap berkas JSON lokal wajib dijalankan melalui web server lokal (seperti `php -S localhost:8000` atau Live Server) dan akan gagal jika dibuka langsung dengan protokol `file://`? Peramban modern menerapkan kebijakan keamanan *Same-Origin Policy* dan regulasi CORS (*Cross-Origin Resource Sharing*) yang ketat, di mana permintaan asinkron XMLHttpRequest dan Fetch API secara sengaja diblokir pada skema protokol `file://` demi mencegah script berbahaya membaca berkas sensitif secara ilegal dari media penyimpanan lokal komputer pengguna.
+1. Apa keuntungan utama menggunakan PDO (*PHP Data Objects*) dibandingkan fungsi basis data spesifik vendor (seperti pustaka lawas `pg_connect()` atau `mysqli_*`)? PDO menyediakan antarmuka lapisan abstraksi akses data (*data-access abstraction layer*) yang seragam untuk berbagai jenis mesin database (seperti PostgreSQL, MySQL, hingga SQLite). Hal ini memberikan fleksibilitas tinggi karena apabila sistem di kemudian hari berganti mesin basis data, kode pemrosesan data aplikasi tidak perlu dirombak total. Selain itu, PDO mendukung penanganan galat terstruktur berbasis objek menggunakan `PDOException` serta memiliki fitur *prepared statement* bawaan yang memisahkan instruksi SQL dengan data input.
+2. Mengapa penyusunan query SQL yang melibatkan input pengguna wajib menggunakan *prepared statement* (`prepare()` + placeholder `:nama`) dan dilarang keras menggunakan penggabungan string (*string concatenation*)? Penggabungan string secara langsung (misalnya `"INSERT INTO buku VALUES ('" . $judul . "')"`) membuka celah kerentanan fatal *SQL Injection*, di mana karakter khusus seperti tanda kutip dapat disalahgunakan penyerang untuk mengubah struktur perintah kueri yang dieksekusi database. Dengan *prepared statement*, pola perintah kueri dikompilasi terlebih dahulu oleh database, dan parameter masukan dikirim secara terpisah sehingga nilai input selalu diperlakukan murni sebagai nilai data literal (bukan bagian dari sintaks SQL yang dapat dieksekusi).
+3. Apa perbedaan fungsi antara method `fetchAll(PDO::FETCH_ASSOC)` dengan `fetchColumn()`, dan pada kondisi apa masing-masing method tersebut tepat digunakan? Method `fetchAll(PDO::FETCH_ASSOC)` mengambil seluruh baris rekaman hasil kueri ke dalam bentuk array asosiatif multidimensi dengan nama kolom sebagai indeksnya, sangat ideal digunakan untuk menampilkan daftar data tabel seperti pada `buku/list.php` dan `anggota/list.php`. Sebaliknya, `fetchColumn()` hanya membaca satu nilai skalar dari satu kolom pada baris pertama hasil kueri, sehingga sangat efisien dan optimal untuk eksekusi kueri agregat seperti `SELECT COUNT(*)` pada ringkasan statistik Beranda tanpa membebani alokasi memori array.
 
 
 ---
 ### Self Question
-1. Bagaimana cara mengimplementasikan strategi penyimpanan sementara (*client-side caching*) menggunakan `localStorage` atau `sessionStorage` agar berkas data JSON tidak perlu diambil ulang dari jaringan setiap kali pengguna berpindah halaman?
-2. Apa kelebihan dan kelemahan arsitektur perenderan data di sisi klien (*Client-Side Rendering* via Fetch/AJAX) dibandingkan perenderan langsung di sisi server (*Server-Side Rendering* via PHP) ditinjau dari aspek performa awal (*First Contentful Paint*) dan keramahan terhadap mesin pencari (SEO)?
+1. Bagaimana pendekatan terbaik untuk menangani galat pelanggaran batasan unik (*unique constraint violation*, misalnya saat `no_anggota` yang sama diinputkan) agar pengguna mendapatkan pesan *flash message* yang ramah alih-alih layar galat sistem?
+2. Mengapa tipe data `SERIAL` pada PostgreSQL secara otomatis menghasilkan objek *sequence* penomoran, dan apa konsekuensinya terhadap urutan nomor ID jika terjadi transaksi penambahan data yang dibatalkan (*rollback*)?
 
 ### Notes
-1. `fetch()` adalah fungsi bawaan JavaScript modern berbasis Promise untuk melakukan komunikasi data HTTP secara asinkron.
-2. Sintaks `async/await` mempermudah penulisan dan pembacaan kode asinkron sehingga tampak sekuensial tanpa ketergantungan pada *chaining* `.then()` yang berantai.
-3. Blok `finally` dijamin selalu dieksekusi di akhir alur baik saat proses `try` berhasil maupun saat tertangkap di blok `catch`, sangat ideal untuk menyembunyikan status pemuatan (*loading indicator*).
-4. Format JSON (*JavaScript Object Notation*) merepresentasikan pertukaran data terstruktur berbasis teks yang dapat langsung diurai menjadi array atau objek JavaScript melalui method `res.json()`.
-5. Mekanisme *Event Bubbling* memungkinkan event klik yang dipicu dari elemen terdalam menjalar naik ke simpul dokumen terluar, menjadi fondasi utama teknik *Event Delegation*.
-6. Baris tabel dinamis yang dibuat dari pembacaan data eksternal sebaiknya dipastikan aman dari celah XSS dengan menghindari injeksi teks mentah yang tidak tersanitasi ke dalam DOM.
+1. Basis data PostgreSQL menjamin data tersimpan secara persisten pada media penyimpanan fisik, menyelesaikan keterbatasan penyimpanan sementara session yang terhapus saat peramban ditutup.
+2. Klausa `RETURNING id` pada operasi `INSERT` di PostgreSQL memungkinkan aplikasi langsung memperoleh nilai ID auto-increment yang baru saja dibuat tanpa perlu menjalankan kueri seleksi terpisah.
+3. Konfigurasi `PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION` memastikan setiap kegagalan operasi SQL akan memicu eksepsi yang dapat ditangani secara elegan dalam blok `try...catch`.
+4. Klausa `ORDER BY id DESC` digunakan untuk menyajikan baris data terbaru di posisi paling atas tabel, memudahkan pengguna melihat rekaman yang baru saja dimasukkan.
+5. Pemanggilan berkas koneksi `includes/koneksi.php` menggunakan pernyataan `require` alih-alih `include` karena ketiadaan koneksi database merupakan kesalahan fatal yang menghentikan aplikasi.
+6. Batasan skema seperti `PRIMARY KEY`, `NOT NULL`, dan `UNIQUE` berfungsi sebagai lapis pertahanan integritas data di tingkat fisik basis data untuk mencegah inkonsistensi data.

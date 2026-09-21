@@ -197,6 +197,24 @@ footer {
     cursor: pointer;
 }
 
+/* ===== Flash Message ===== */
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.flash-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
 /* ===== Pesan Error Validasi ===== */
 .error {
     display: block;
@@ -216,13 +234,6 @@ footer {
     padding: 0.5rem 0.75rem;
     border: 1px solid #cdd4da;
     border-radius: 4px;
-}
-
-/* ===== Loading Indicator ===== */
-#loading-indicator {
-    color: #1d5b8a;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
 }
 
 /* ===== Responsive Breakpoints ===== */
