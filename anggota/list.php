@@ -4,6 +4,14 @@ include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
 
 $flash = $_SESSION['flash'] ?? null;
+if (!$flash && isset($_COOKIE['flash_pesan'])) {
+    $flash = [
+        'type' => $_COOKIE['flash_type'] ?? 'info',
+        'pesan' => $_COOKIE['flash_pesan'],
+    ];
+    setcookie('flash_type', '', time() - 3600, '/');
+    setcookie('flash_pesan', '', time() - 3600, '/');
+}
 unset($_SESSION['flash']);
 
 $daftarAnggota = $pdo->query("SELECT * FROM anggota ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
@@ -44,8 +52,7 @@ $daftarAnggota = $pdo->query("SELECT * FROM anggota ORDER BY id DESC")->fetchAll
                             <td><?php echo $anggota['alamat']; ?></td>
                             <td><?php echo $anggota['no_hp']; ?></td>
                             <td>
-                                <button type="button">Edit</button>
-                                <button type="button" class="btn-hapus">Hapus</button>
+                                <a href="hapus.php?id=<?php echo $anggota['id']; ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus <?php echo htmlspecialchars($anggota['nama'], ENT_QUOTES); ?>?');">Hapus</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

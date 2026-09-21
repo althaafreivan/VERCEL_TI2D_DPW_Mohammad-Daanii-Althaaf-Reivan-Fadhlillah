@@ -26,7 +26,10 @@ if (!is_numeric($stok) || $stok < 0) {
 }
 
 if (!empty($errors)) {
-    $_SESSION['flash'] = ['type' => 'error', 'pesan' => implode(' ', $errors)];
+    $pesan = implode(' ', $errors);
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => $pesan];
+    setcookie('flash_type', 'error', time() + 30, '/');
+    setcookie('flash_pesan', $pesan, time() + 30, '/');
     if (!headers_sent()) {
         header('Location: tambah.php');
     } else {
@@ -35,24 +38,38 @@ if (!empty($errors)) {
     exit;
 }
 
-$stmt = $pdo->prepare(
-    "INSERT INTO buku (judul, pengarang, tahun, isbn, stok, kategori)
-     VALUES (:judul, :pengarang, :tahun, :isbn, :stok, :kategori)
-     RETURNING id"
-);
-$stmt->execute([
-    'judul' => $judul,
-    'pengarang' => $pengarang,
-    'tahun' => (int) $tahun,
-    'isbn' => $isbn,
-    'stok' => (int) $stok,
-    'kategori' => $kategori,
-]);
+try {
+    $stmt = $pdo->prepare(
+        "INSERT INTO buku (judul, pengarang, tahun, isbn, stok, kategori)
+         VALUES (:judul, :pengarang, :tahun, :isbn, :stok, :kategori)
+         RETURNING id"
+    );
+    $stmt->execute([
+        'judul' => $judul,
+        'pengarang' => $pengarang,
+        'tahun' => (int) $tahun,
+        'isbn' => $isbn,
+        'stok' => (int) $stok,
+        'kategori' => $kategori,
+    ]);
 
-$_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Buku berhasil ditambahkan.'];
-if (!headers_sent()) {
-    header('Location: list.php');
-} else {
-    echo "<script>location.replace('list.php');</script>";
+    $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Buku berhasil ditambahkan.'];
+    setcookie('flash_type', 'success', time() + 30, '/');
+    setcookie('flash_pesan', 'Buku berhasil ditambahkan.', time() + 30, '/');
+    if (!headers_sent()) {
+        header('Location: list.php');
+    } else {
+        echo "<script>location.replace('list.php');</script>";
+    }
+} catch (Throwable $e) {
+    $pesan = 'Gagal menambahkan buku: ' . $e->getMessage();
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => $pesan];
+    setcookie('flash_type', 'error', time() + 30, '/');
+    setcookie('flash_pesan', $pesan, time() + 30, '/');
+    if (!headers_sent()) {
+        header('Location: tambah.php');
+    } else {
+        echo "<script>location.replace('tambah.php');</script>";
+    }
 }
 exit;

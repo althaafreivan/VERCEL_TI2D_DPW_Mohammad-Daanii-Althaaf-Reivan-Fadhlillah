@@ -116,6 +116,13 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
             if ($httpCode >= 200 && $httpCode < 300) {
                 return json_decode($response, true) ?: [];
             }
+
+            // Jika operasi POST/DELETE gagal, lemparkan PDOException agar ditangkap try..catch
+            if ($method === 'POST' || $method === 'DELETE') {
+                $err = json_decode($response, true);
+                $msg = $err['message'] ?? $err['details'] ?? "Database error HTTP $httpCode";
+                throw new PDOException($msg, (int)$httpCode);
+            }
             return null;
         }
 
@@ -151,6 +158,21 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
         public function insert(string $table, array $data): ?int {
             $res = $this->request($table, 'POST', $data, ['Prefer: return=representation']);
             return isset($res[0]['id']) ? (int)$res[0]['id'] : 1;
+        }
+
+        public function delete(string $table, int $id): bool {
+            $ch = curl_init($this->url . '/rest/v1/' . $table . '?id=eq.' . $id);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'apikey: ' . $this->key,
+                'Authorization: Bearer ' . $this->key,
+                'User-Agent: SIMPUS-Mini/1.0',
+            ]);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+            $res = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            return $httpCode >= 200 && $httpCode < 300;
         }
     }
 
@@ -209,6 +231,22 @@ if (!$pdo && !empty($supabaseUrl) && !empty($supabaseKey)) {
             if (preg_match('/INSERT\s+INTO\s+(\w+)/i', $sql, $m)) {
                 return new SupabaseStatement($this->driver, $m[1]);
             }
+
+            if (preg_match('/DELETE\s+FROM\s+(\w+)\s+WHERE\s+id\s*=\s*:id/i', $sql, $m)) {
+                return new class($this->driver, $m[1]) {
+                    private SupabaseRestDriver $driver;
+                    private string $table;
+                    public function __construct(SupabaseRestDriver $d, string $t) {
+                        $this->driver = $d;
+                        $this->table = $t;
+                    }
+                    public function execute(array $params = []): bool {
+                        $id = (int)($params['id'] ?? $params[':id'] ?? 0);
+                        return $this->driver->delete($this->table, $id);
+                    }
+                };
+            }
+
             throw new Exception("Query not supported by Supabase adapter: $sql");
         }
 
