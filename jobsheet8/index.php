@@ -42,16 +42,6 @@ $fotoTerbaru = $pdo->query("SELECT id, judul, pengunggah, kategori, tahun, deskr
                 <span class="stat-num"><?php echo htmlspecialchars($totalPengunggah); ?></span>
                 <span class="stat-label">Pengunggah</span>
             </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-num">HD</span>
-                <span class="stat-label">Kualitas Bebas</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-num">100%</span>
-                <span class="stat-label">Bebas Akses</span>
-            </div>
         </div>
     </section>
 
