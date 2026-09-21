@@ -9,15 +9,15 @@ if (isset($_GET['hapus'])) {
     $id = filter_var($_GET['hapus'], FILTER_VALIDATE_INT);
     if ($id) {
         try {
-            // Ambil nama file dari database untuk menghapus fisik file
+            // Ambil nama file jika ada file lokal untuk dibersihkan
             $cek = $pdo->prepare("SELECT file_gambar FROM galeri WHERE id = :id");
             $cek->execute([':id' => $id]);
             $foto = $cek->fetch(PDO::FETCH_ASSOC);
 
-            if ($foto && !empty($foto['file_gambar'])) {
+            if ($foto && !empty($foto['file_gambar']) && !str_starts_with($foto['file_gambar'], 'data:')) {
                 $file_path = __DIR__ . '/../assets/uploads/' . $foto['file_gambar'];
                 if (file_exists($file_path)) {
-                    @unlink($file_path); // Hapus file fisik dari folder uploads
+                    @unlink($file_path);
                 }
             }
 
@@ -47,15 +47,22 @@ include __DIR__ . '/../includes/header.php';
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
-// Ambil data gambar dari tabel galeri (dengan filter pencarian jika ada)
+// Ambil data gambar (tanpa membebani memori dengan isi biner gambar di halaman list)
 $cari = trim($_GET['q'] ?? '');
 if ($cari !== '') {
-    $sql = "SELECT * FROM galeri WHERE judul ILIKE :q OR pengunggah ILIKE :q OR kategori ILIKE :q ORDER BY id DESC";
+    $sql = "SELECT id, judul, pengunggah, kategori, tahun, deskripsi, 
+                   (CASE WHEN file_gambar IS NOT NULL AND file_gambar != '' THEN 1 ELSE 0 END) AS ada_gambar 
+            FROM galeri 
+            WHERE judul ILIKE :q OR pengunggah ILIKE :q OR kategori ILIKE :q 
+            ORDER BY id DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':q' => "%$cari%"]);
     $daftar_gambar = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    $sql = "SELECT * FROM galeri ORDER BY id DESC";
+    $sql = "SELECT id, judul, pengunggah, kategori, tahun, deskripsi, 
+                   (CASE WHEN file_gambar IS NOT NULL AND file_gambar != '' THEN 1 ELSE 0 END) AS ada_gambar 
+            FROM galeri 
+            ORDER BY id DESC";
     $daftar_gambar = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
@@ -105,17 +112,8 @@ if ($cari !== '') {
         <div class="gallery-grid">
             <?php foreach ($daftar_gambar as $item): ?>
                 <?php 
-                    $file_gambar = $item['file_gambar'] ?? '';
-                    if (str_starts_with($file_gambar, 'data:image') || str_starts_with($file_gambar, 'http')) {
-                        $url_gambar = $file_gambar;
-                        $ada_file   = true;
-                    } elseif (!empty($file_gambar)) {
-                        $url_gambar = $base . 'assets/uploads/' . htmlspecialchars($file_gambar);
-                        $path_fisik = __DIR__ . '/../assets/uploads/' . $file_gambar;
-                        $ada_file   = file_exists($path_fisik);
-                    } else {
-                        $ada_file   = false;
-                    }
+                    $ada_file   = !empty($item['ada_gambar']);
+                    $url_gambar = $base . 'gambar.php?id=' . (int)$item['id'];
                 ?>
                 <article class="gallery-card">
                     <div class="gallery-thumb-wrap">

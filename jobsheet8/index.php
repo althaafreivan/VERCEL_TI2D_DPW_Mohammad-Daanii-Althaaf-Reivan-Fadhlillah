@@ -7,15 +7,18 @@ require __DIR__ . '/includes/koneksi.php';
 $totalFoto = $pdo->query("SELECT COUNT(*) FROM galeri")->fetchColumn();
 $totalPengunggah = $pdo->query("SELECT COUNT(DISTINCT pengunggah) FROM galeri")->fetchColumn();
 
-// Ambil 4 gambar terbaru dari database untuk ditampilkan di beranda
-$fotoTerbaru = $pdo->query("SELECT * FROM galeri ORDER BY id DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+// Ambil 4 gambar terbaru dari database (tanpa membebani ukuran memori HTML)
+$fotoTerbaru = $pdo->query("SELECT id, judul, pengunggah, kategori, tahun, deskripsi, 
+                                   (CASE WHEN file_gambar IS NOT NULL AND file_gambar != '' THEN 1 ELSE 0 END) AS ada_gambar 
+                            FROM galeri 
+                            ORDER BY id DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
     <!-- Hero Section -->
     <section class="hero-section">
         <h1 class="hero-headline">Bagikan & Temukan Gambar Inspiratif</h1>
         <p class="hero-subtext">
-            Platform Galeri Foto dengan kecepatan instan. Bagikan momen bersama temanmu atau temukan inspirasi dari koleksi gambar yang terus bertambah setiap harinya.
+            Platform galeri foto, wallpaper, dan karya gambar digital. Unggah fotomu dengan mudah, simpan aman ke database PostgreSQL, dan bagikan dalam tampilan galeri yang rapi.
         </p>
 
         <div class="hero-actions">
@@ -39,6 +42,16 @@ $fotoTerbaru = $pdo->query("SELECT * FROM galeri ORDER BY id DESC LIMIT 4")->fet
                 <span class="stat-num"><?php echo htmlspecialchars($totalPengunggah); ?></span>
                 <span class="stat-label">Pengunggah</span>
             </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">HD</span>
+                <span class="stat-label">Kualitas Bebas</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">100%</span>
+                <span class="stat-label">Bebas Akses</span>
+            </div>
         </div>
     </section>
 
@@ -50,18 +63,32 @@ $fotoTerbaru = $pdo->query("SELECT * FROM galeri ORDER BY id DESC LIMIT 4")->fet
         </div>
 
         <div class="category-grid">
-            <a href="collection/catalog.php?q=Realistic" class="category-card">
+            <a href="collection/catalog.php?q=Wallpaper" class="category-card">
                 <span class="cat-icon">🖼️</span>
                 <div class="cat-info">
-                    <h3>Realistic</h3>
-                    <p>Gambar yang tampak nyata dan detail</p>
+                    <h3>Wallpaper</h3>
+                    <p>Latar desktop & layar ponsel</p>
                 </div>
             </a>
-            <a href="collection/catalog.php?q=Stylized" class="category-card">
+            <a href="collection/catalog.php?q=Pemandangan" class="category-card">
                 <span class="cat-icon">🌄</span>
                 <div class="cat-info">
-                    <h3>Stylized</h3>
-                    <p>Gambar dengan gaya seni yang unik dan kreatif</p>
+                    <h3>Pemandangan & Alam</h3>
+                    <p>Pantai, gunung, dan alam bebas</p>
+                </div>
+            </a>
+            <a href="collection/catalog.php?q=Fotografi" class="category-card">
+                <span class="cat-icon">📸</span>
+                <div class="cat-info">
+                    <h3>Fotografi</h3>
+                    <p>Potret, jalanan, dan human interest</p>
+                </div>
+            </a>
+            <a href="collection/catalog.php?q=Ilustrasi" class="category-card">
+                <span class="cat-icon">🎨</span>
+                <div class="cat-info">
+                    <h3>Ilustrasi & Seni</h3>
+                    <p>Karya digital art dan grafis</p>
                 </div>
             </a>
         </div>
@@ -86,17 +113,8 @@ $fotoTerbaru = $pdo->query("SELECT * FROM galeri ORDER BY id DESC LIMIT 4")->fet
             <div class="gallery-grid">
                 <?php foreach ($fotoTerbaru as $item): ?>
                     <?php 
-                        $file_gambar = $item['file_gambar'] ?? '';
-                        if (str_starts_with($file_gambar, 'data:image') || str_starts_with($file_gambar, 'http')) {
-                            $url_gambar = $file_gambar;
-                            $ada_file   = true;
-                        } elseif (!empty($file_gambar)) {
-                            $url_gambar = 'assets/uploads/' . htmlspecialchars($file_gambar);
-                            $path_fisik = __DIR__ . '/assets/uploads/' . $file_gambar;
-                            $ada_file   = file_exists($path_fisik);
-                        } else {
-                            $ada_file   = false;
-                        }
+                        $ada_file   = !empty($item['ada_gambar']);
+                        $url_gambar = 'gambar.php?id=' . (int)$item['id'];
                     ?>
                     <article class="gallery-card">
                         <div class="gallery-thumb-wrap">
@@ -135,6 +153,32 @@ $fotoTerbaru = $pdo->query("SELECT * FROM galeri ORDER BY id DESC LIMIT 4")->fet
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
+    </section>
+
+    <!-- Keunggulan Sistem -->
+    <section class="features-section">
+        <div class="section-title-wrap text-center">
+            <span class="section-tag">Fitur Aplikasi</span>
+            <h2>Sederhana, Cepat, dan Mudah Dipahami</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">📁</div>
+                <h3>Upload Gambar Instan</h3>
+                <p>Mengunggah file foto (JPG, PNG, WEBP) dengan validasi ekstensi berkas di sisi server menggunakan fungsi PHP bawaan.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🗄️</div>
+                <h3>Database PostgreSQL</h3>
+                <p>Penyimpanan persisten relasional menggunakan ekstensi PDO dan Prepared Statement untuk mencegah celah SQL Injection.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">✨</div>
+                <h3>Desain Soft Neumorphism</h3>
+                <p>Antarmuka visual modern yang bersih dan halus berbasis neumorphism.io tanpa efek animasi berat saat memuat halaman.</p>
+            </div>
+        </div>
     </section>
 
     <!-- CTA Box -->
