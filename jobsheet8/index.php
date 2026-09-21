@@ -64,28 +64,28 @@ $fotoTerbaru = $pdo->query("SELECT id, judul, pengunggah, kategori, tahun, deskr
 
         <div class="category-grid">
             <a href="collection/catalog.php?q=Wallpaper" class="category-card">
-                <span class="cat-icon">🖼️</span>
+                <span class="cat-icon"></span>
                 <div class="cat-info">
                     <h3>Wallpaper</h3>
                     <p>Latar desktop & layar ponsel</p>
                 </div>
             </a>
             <a href="collection/catalog.php?q=Pemandangan" class="category-card">
-                <span class="cat-icon">🌄</span>
+                <span class="cat-icon"></span>
                 <div class="cat-info">
                     <h3>Pemandangan & Alam</h3>
                     <p>Pantai, gunung, dan alam bebas</p>
                 </div>
             </a>
             <a href="collection/catalog.php?q=Fotografi" class="category-card">
-                <span class="cat-icon">📸</span>
+                <span class="cat-icon"></span>
                 <div class="cat-info">
                     <h3>Fotografi</h3>
                     <p>Potret, jalanan, dan human interest</p>
                 </div>
             </a>
             <a href="collection/catalog.php?q=Ilustrasi" class="category-card">
-                <span class="cat-icon">🎨</span>
+                <span class="cat-icon"></span>
                 <div class="cat-info">
                     <h3>Ilustrasi & Seni</h3>
                     <p>Karya digital art dan grafis</p>
@@ -121,7 +121,7 @@ $fotoTerbaru = $pdo->query("SELECT id, judul, pengunggah, kategori, tahun, deskr
                             <?php if ($ada_file): ?>
                                 <img src="<?php echo $url_gambar; ?>" alt="<?php echo htmlspecialchars($item['judul']); ?>" class="gallery-thumb" loading="lazy">
                             <?php else: ?>
-                                <div class="gallery-thumb-placeholder">🖼️</div>
+                                <div class="gallery-thumb-placeholder"></div>
                             <?php endif; ?>
                         </div>
 
@@ -139,7 +139,7 @@ $fotoTerbaru = $pdo->query("SELECT id, judul, pengunggah, kategori, tahun, deskr
                             <div class="gallery-footer">
                                 <?php if ($ada_file): ?>
                                     <a href="<?php echo $url_gambar; ?>" target="_blank" class="btn-card" style="font-size: 0.775rem;">
-                                        Lihat Foto ↗
+                                        Lihat Foto 
                                     </a>
                                 <?php else: ?>
                                     <span style="font-size: 0.75rem; color: var(--text-light);">Placeholder</span>
@@ -153,32 +153,6 @@ $fotoTerbaru = $pdo->query("SELECT id, judul, pengunggah, kategori, tahun, deskr
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-    </section>
-
-    <!-- Keunggulan Sistem -->
-    <section class="features-section">
-        <div class="section-title-wrap text-center">
-            <span class="section-tag">Fitur Aplikasi</span>
-            <h2>Sederhana, Cepat, dan Mudah Dipahami</h2>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature-item">
-                <div class="feature-icon">📁</div>
-                <h3>Upload Gambar Instan</h3>
-                <p>Mengunggah file foto (JPG, PNG, WEBP) dengan validasi ekstensi berkas di sisi server menggunakan fungsi PHP bawaan.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">🗄️</div>
-                <h3>Database PostgreSQL</h3>
-                <p>Penyimpanan persisten relasional menggunakan ekstensi PDO dan Prepared Statement untuk mencegah celah SQL Injection.</p>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">✨</div>
-                <h3>Desain Soft Neumorphism</h3>
-                <p>Antarmuka visual modern yang bersih dan halus berbasis neumorphism.io tanpa efek animasi berat saat memuat halaman.</p>
-            </div>
-        </div>
     </section>
 
     <!-- CTA Box -->
