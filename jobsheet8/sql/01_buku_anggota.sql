@@ -1,16 +1,14 @@
--- Jobsheet 8: skema awal database simpus_mini (PostgreSQL)
--- Jalankan setelah membuat database, misal:
---   createdb simpus_mini
---   psql -d simpus_mini -f sql/01_buku_anggota.sql
+-- Jobsheet 8: Skema Database PixelGallery (PostgreSQL / Supabase)
+-- Jalankan di SQL Editor Supabase atau terminal psql:
 
-CREATE TABLE IF NOT EXISTS buku (
+CREATE TABLE IF NOT EXISTS galeri (
     id SERIAL PRIMARY KEY,
     judul VARCHAR(255) NOT NULL,
-    pengarang VARCHAR(255) NOT NULL,
+    pengunggah VARCHAR(255) NOT NULL,
+    kategori VARCHAR(100) DEFAULT 'Umum',
+    file_gambar VARCHAR(255) NOT NULL,
     tahun INTEGER NOT NULL,
-    isbn VARCHAR(50),
-    stok INTEGER NOT NULL DEFAULT 0,
-    kategori VARCHAR(50)
+    deskripsi VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS anggota (

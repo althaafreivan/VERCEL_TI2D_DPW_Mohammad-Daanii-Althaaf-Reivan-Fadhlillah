@@ -1,56 +1,43 @@
 <?php
-$page_title = "LowPolyTech - 3D Asset Store for Game Developers";
+$page_title = "PixelGallery - Platform Galeri & Upload Foto";
 include __DIR__ . '/includes/header.php';
 require __DIR__ . '/includes/koneksi.php';
 
-$totalBuku = $pdo->query("SELECT COUNT(*) FROM buku")->fetchColumn();
-$totalAnggota = $pdo->query("SELECT COUNT(*) FROM anggota")->fetchColumn();
+// Ambil statistik ringkas langsung dari database PostgreSQL (sesuai tugas Jobsheet 8)
+$totalFoto = $pdo->query("SELECT COUNT(*) FROM galeri")->fetchColumn();
+$totalPengunggah = $pdo->query("SELECT COUNT(DISTINCT pengunggah) FROM galeri")->fetchColumn();
+
+// Ambil 4 gambar terbaru dari database untuk ditampilkan di beranda
+$fotoTerbaru = $pdo->query("SELECT * FROM galeri ORDER BY id DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="hero-badge">
-            <span class="badge-dot"></span>
-            <span>Game-Ready 3D Asset Store</span>
-        </div>
-        <h1 class="hero-headline">Speed Up Your Development</h1>
+        <h1 class="hero-headline">Bagikan & Temukan Gambar Inspiratif</h1>
         <p class="hero-subtext">
-            Koleksi aset 3D Low Poly berkualitas tinggi, ringan, dan siap pakai untuk Unity, Unreal Engine, Godot, dan Blender. Hemat waktu pembuatan model dan fokus kembangkan gameplay impianmu.
+            Platform Galeri Foto dengan kecepatan instan. Bagikan momen bersama temanmu atau temukan inspirasi dari koleksi gambar yang terus bertambah setiap harinya.
         </p>
 
         <div class="hero-actions">
-            <a href="buku/list.php" class="btn btn-primary">
-                <span>Jelajahi Katalog Aset</span>
+            <a href="collection/catalog.php" class="btn btn-primary">
+                <span>Jelajahi Galeri Foto</span>
                 <span class="btn-arrow">&rarr;</span>
             </a>
-            <a href="buku/tambah.php" class="btn btn-secondary">
-                <span>+ Upload Aset Baru</span>
-            </a>
-            <a href="anggota/list.php" class="btn btn-outline">
-                <span>Daftar Creator</span>
+            <a href="collection/upload-asset.php" class="btn btn-secondary">
+                <span>+ Upload Gambar Baru</span>
             </a>
         </div>
 
         <!-- Live Platform Stats -->
         <div class="hero-stats">
             <div class="stat-item">
-                <span class="stat-num"><?php echo htmlspecialchars($totalBuku); ?>+</span>
-                <span class="stat-label">Asset Packs Live</span>
+                <span class="stat-num"><?php echo htmlspecialchars($totalFoto); ?></span>
+                <span class="stat-label">Total Foto</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <span class="stat-num"><?php echo htmlspecialchars($totalAnggota); ?></span>
-                <span class="stat-label">Active Creators</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-num">&lt; 1.5K</span>
-                <span class="stat-label">Avg. Tris Count</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-                <span class="stat-num">100%</span>
-                <span class="stat-label">Commercial Ready</span>
+                <span class="stat-num"><?php echo htmlspecialchars($totalPengunggah); ?></span>
+                <span class="stat-label">Pengunggah</span>
             </div>
         </div>
     </section>
@@ -58,203 +45,99 @@ $totalAnggota = $pdo->query("SELECT COUNT(*) FROM anggota")->fetchColumn();
     <!-- Categories Section -->
     <section class="categories-section">
         <div class="section-title-wrap">
-            <span class="section-tag">Kategori Populer</span>
-            <h2>Temukan Aset Sesuai Genre Game Kamu</h2>
+            <span class="section-tag">Kategori Gambar</span>
+            <h2>Jelajahi Berdasarkan Tema</h2>
         </div>
 
         <div class="category-grid">
-            <a href="buku/list.php" class="category-card">
-                <span class="cat-icon">🏰</span>
+            <a href="collection/catalog.php?q=Realistic" class="category-card">
+                <span class="cat-icon">🖼️</span>
                 <div class="cat-info">
-                    <h3>Environment &amp; World</h3>
-                    <p>Modular dungeon, castle, &amp; city</p>
+                    <h3>Realistic</h3>
+                    <p>Gambar yang tampak nyata dan detail</p>
                 </div>
             </a>
-            <a href="buku/list.php" class="category-card">
-                <span class="cat-icon">⚔️</span>
+            <a href="collection/catalog.php?q=Stylized" class="category-card">
+                <span class="cat-icon">🌄</span>
                 <div class="cat-info">
-                    <h3>Weapons &amp; Armory</h3>
-                    <p>Swords, shields, axes, &amp; bows</p>
-                </div>
-            </a>
-            <a href="buku/list.php" class="category-card">
-                <span class="cat-icon">🚗</span>
-                <div class="cat-info">
-                    <h3>Vehicles &amp; Sci-Fi</h3>
-                    <p>Spaceships, mecha, &amp; retro cars</p>
-                </div>
-            </a>
-            <a href="buku/list.php" class="category-card">
-                <span class="cat-icon">👾</span>
-                <div class="cat-info">
-                    <h3>Characters &amp; Mobs</h3>
-                    <p>Rigged warriors, NPCs, &amp; monsters</p>
-                </div>
-            </a>
-            <a href="buku/list.php" class="category-card">
-                <span class="cat-icon">🌲</span>
-                <div class="cat-info">
-                    <h3>Nature &amp; Foliage</h3>
-                    <p>Low poly trees, rocks, &amp; terrain</p>
-                </div>
-            </a>
-            <a href="buku/list.php" class="category-card">
-                <span class="cat-icon">📦</span>
-                <div class="cat-info">
-                    <h3>UI &amp; Icons</h3>
-                    <p>3D item badges &amp; game icons</p>
+                    <h3>Stylized</h3>
+                    <p>Gambar dengan gaya seni yang unik dan kreatif</p>
                 </div>
             </a>
         </div>
     </section>
 
-    <!-- Featured Asset Packs -->
+    <!-- Featured / Latest Uploads -->
     <section class="featured-section">
         <div class="section-title-wrap flex-between">
             <div>
-                <span class="section-tag">Featured Packs</span>
-                <h2>Pilihan Aset Unggulan</h2>
+                <span class="section-tag">Koleksi Terkini</span>
+                <h2>Foto Terbaru di Galeri</h2>
             </div>
-            <a href="buku/list.php" class="link-more">Lihat Semua Aset &rarr;</a>
+            <a href="collection/catalog.php" class="link-more">Buka Semua Gambar &rarr;</a>
         </div>
 
-        <div class="asset-grid">
-            <!-- Asset 1 -->
-            <article class="asset-card">
-                <div class="asset-preview preview-dungeon">
-                    <span class="pack-badge">Modular</span>
-                    <span class="poly-badge">1.2k Tris</span>
-                </div>
-                <div class="asset-body">
-                    <div class="asset-meta">
-                        <span class="asset-author">LowPolyTech Studio</span>
-                        <span class="asset-rating">★ 4.9 (128)</span>
-                    </div>
-                    <h3 class="asset-title"><a href="buku/list.php">Dungeon Crawler Modular Pack</a></h3>
-                    <p class="asset-desc">140+ modul ruangan batu, peti harta, obor, jebakan duri, dan pilar bertekstur palet warna efisien.</p>
-                    <div class="asset-tags">
-                        <span class="tag">FBX</span>
-                        <span class="tag">Blend</span>
-                        <span class="tag">Collision</span>
-                    </div>
-                    <div class="asset-footer">
-                        <span class="asset-price">Free / Open</span>
-                        <a href="buku/list.php" class="btn-card">Inspect Pack &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Asset 2 -->
-            <article class="asset-card">
-                <div class="asset-preview preview-cyber">
-                    <span class="pack-badge">Sci-Fi</span>
-                    <span class="poly-badge">980 Tris</span>
-                </div>
-                <div class="asset-body">
-                    <div class="asset-meta">
-                        <span class="asset-author">Nexus Labs</span>
-                        <span class="asset-rating">★ 5.0 (94)</span>
-                    </div>
-                    <h3 class="asset-title"><a href="buku/list.php">Cyberpunk Mini Metropolis</a></h3>
-                    <p class="asset-desc">Gedung pencakar langit neon, drone patroli, kendaraan melayang, pipa jalanan, dan reklame holografis.</p>
-                    <div class="asset-tags">
-                        <span class="tag">Emissive</span>
-                        <span class="tag">PBR</span>
-                        <span class="tag">Unity Prefab</span>
-                    </div>
-                    <div class="asset-footer">
-                        <span class="asset-price">Free / Open</span>
-                        <a href="buku/list.php" class="btn-card">Inspect Pack &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Asset 3 -->
-            <article class="asset-card">
-                <div class="asset-preview preview-weapon">
-                    <span class="pack-badge">Weapons</span>
-                    <span class="poly-badge">450 Tris</span>
-                </div>
-                <div class="asset-body">
-                    <div class="asset-meta">
-                        <span class="asset-author">IronForge Dev</span>
-                        <span class="asset-rating">★ 4.8 (76)</span>
-                    </div>
-                    <h3 class="asset-title"><a href="buku/list.php">Medieval Weapons &amp; Shields</a></h3>
-                    <p class="asset-desc">60 model pedang ksatria, busur panah, tameng kayu, kapak viking, dan tombak tempur siap pasang ke tangan karakter.</p>
-                    <div class="asset-tags">
-                        <span class="tag">Low Tris</span>
-                        <span class="tag">Mobile Ready</span>
-                        <span class="tag">OBJ</span>
-                    </div>
-                    <div class="asset-footer">
-                        <span class="asset-price">Free / Open</span>
-                        <a href="buku/list.php" class="btn-card">Inspect Pack &rarr;</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Asset 4 -->
-            <article class="asset-card">
-                <div class="asset-preview preview-creature">
-                    <span class="pack-badge">Animated</span>
-                    <span class="poly-badge">1.8k Tris</span>
-                </div>
-                <div class="asset-body">
-                    <div class="asset-meta">
-                        <span class="asset-author">MonsterCraft</span>
-                        <span class="asset-rating">★ 4.9 (112)</span>
-                    </div>
-                    <h3 class="asset-title"><a href="buku/list.php">Stylized Fantasy Mobs &amp; Slimes</a></h3>
-                    <p class="asset-desc">10 model monster fantasi lengkap dengan rig tulang biped &amp; quadruped beserta animasi dasar Idle dan Walk cycle.</p>
-                    <div class="asset-tags">
-                        <span class="tag">Rigged</span>
-                        <span class="tag">Animations</span>
-                        <span class="tag">Humanoid</span>
-                    </div>
-                    <div class="asset-footer">
-                        <span class="asset-price">Free / Open</span>
-                        <a href="buku/list.php" class="btn-card">Inspect Pack &rarr;</a>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <!-- Why Choose LowPolyTech -->
-    <section class="features-section">
-        <div class="section-title-wrap text-center">
-            <span class="section-tag">Kenapa LowPolyTech?</span>
-            <h2>Didesain Khusus untuk Performa Game Maksimal</h2>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature-item">
-                <div class="feature-icon">⚡</div>
-                <h3>Polycount Super Ringan</h3>
-                <p>Topologi rapi tanpa vertex mubazir. Sangat bersahabat untuk game Mobile (Android/iOS), WebGL, dan Virtual Reality.</p>
+        <?php if (empty($fotoTerbaru)): ?>
+            <div class="nm-form-card text-center" style="padding: 2.5rem 1rem;">
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">Belum ada foto yang diunggah ke sistem.</p>
+                <a href="collection/upload-asset.php" class="btn btn-primary" style="display: inline-flex;">+ Unggah Foto Pertama</a>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon">🎮</div>
-                <h3>Multi-Engine Compatible</h3>
-                <p>Telah diuji dan kompatibel langsung dengan Unity Engine, Unreal Engine 5, Godot 4, hingga software Blender.</p>
+        <?php else: ?>
+            <div class="gallery-grid">
+                <?php foreach ($fotoTerbaru as $item): ?>
+                    <?php 
+                        $file_gambar = $item['file_gambar'] ?? '';
+                        $path_fisik  = __DIR__ . '/assets/uploads/' . $file_gambar;
+                        $ada_file    = !empty($file_gambar) && file_exists($path_fisik);
+                        $url_gambar  = 'assets/uploads/' . htmlspecialchars($file_gambar);
+                    ?>
+                    <article class="gallery-card">
+                        <div class="gallery-thumb-wrap">
+                            <?php if ($ada_file): ?>
+                                <img src="<?php echo $url_gambar; ?>" alt="<?php echo htmlspecialchars($item['judul']); ?>" class="gallery-thumb" loading="lazy">
+                            <?php else: ?>
+                                <div class="gallery-thumb-placeholder">🖼️</div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="gallery-body">
+                            <div class="gallery-meta">
+                                <span class="cat-pill"><?php echo htmlspecialchars($item['kategori'] ?? 'Umum'); ?></span>
+                                <span>Tahun <?php echo htmlspecialchars($item['tahun']); ?></span>
+                            </div>
+
+                            <h3 class="gallery-title"><?php echo htmlspecialchars($item['judul']); ?></h3>
+                            <p class="asset-desc" style="margin-bottom: 0.5rem; font-size: 0.825rem;">
+                                Pengunggah: <strong><?php echo htmlspecialchars($item['pengunggah']); ?></strong>
+                            </p>
+
+                            <div class="gallery-footer">
+                                <?php if ($ada_file): ?>
+                                    <a href="<?php echo $url_gambar; ?>" target="_blank" class="btn-card" style="font-size: 0.775rem;">
+                                        Lihat Foto ↗
+                                    </a>
+                                <?php else: ?>
+                                    <span style="font-size: 0.75rem; color: var(--text-light);">Placeholder</span>
+                                <?php endif; ?>
+                                <a href="collection/catalog.php" class="btn-card" style="font-size: 0.775rem;">
+                                    Galeri &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
             </div>
-            <div class="feature-item">
-                <div class="feature-icon">💼</div>
-                <h3>Lisensi Bebas Royalti</h3>
-                <p>Semua aset dapat kamu gunakan langsung di dalam game komersial yang kamu jual di Steam, Google Play, atau itch.io.</p>
-            </div>
-        </div>
+        <?php endif; ?>
     </section>
 
     <!-- CTA Box -->
     <section class="cta-banner">
         <div class="cta-content">
-            <h2>Mulai Bangun Game Impianmu Sekarang</h2>
-            <p>Hemat ratusan jam pengerjaan 3D modeling dan fokus pada serunya mekanisme gameplay.</p>
+            <h2>Punya Foto atau Wallpaper Menarik?</h2>
+            <p>Unggah sekarang dan simpan ke galeri digital pribadi Anda dalam hitungan detik.</p>
             <div class="cta-buttons">
-                <a href="buku/list.php" class="btn btn-primary">Buka Database Katalog Aset &rarr;</a>
-                <a href="buku/tambah.php" class="btn btn-secondary">Upload Aset Baru</a>
+                <a href="collection/upload-asset.php" class="btn btn-primary">+ Upload Gambar Sekarang</a>
+                <a href="collection/catalog.php" class="btn btn-secondary">Buka Galeri Foto &rarr;</a>
             </div>
         </div>
     </section>

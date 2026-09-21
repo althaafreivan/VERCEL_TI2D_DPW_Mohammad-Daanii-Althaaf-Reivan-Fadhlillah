@@ -9,10 +9,10 @@ function initNavToggle() {
     });
 }
 
-// ===== Konfirmasi hapus (front-end only jika masih bertipe button) =====
+// ===== Konfirmasi hapus (front-end only, belum ke server) =====
 function initHapusConfirm() {
     document.addEventListener("click", function (e) {
-        const btn = e.target.closest("button.btn-hapus");
+        const btn = e.target.closest(".btn-hapus");
         if (!btn) return;
 
         const row = btn.closest("tr");
