@@ -12,10 +12,10 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
         if (isset($pdo) && $pdo) {
             $totalBuku = $pdo->query("SELECT COUNT(*) FROM buku")->fetchColumn();
             $totalAnggota = $pdo->query("SELECT COUNT(*) FROM anggota")->fetchColumn();
-            $dbStatus = 'Terhubung (PostgreSQL / Supabase)';
+            $dbStatus = 'Terhubung';
         }
     } catch (Throwable $e) {
-        $dbStatus = 'Tersedia via Fallback';
+        $dbStatus = 'Fallback Aktif';
     }
 }
 ?>
@@ -30,41 +30,37 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ==========================================================================
-           Neumorphism Design System (Berdasarkan Spesifikasi neumorphism.io)
-           Base Surface: #e0e5ec
-           Shadow Light: #ffffff (-x, -y)
-           Shadow Dark:  #a3b1c6 (+x, +y)
+           Ultra Soft Neumorphic Design System (Clean, Borderless, Natural Shadows)
+           Inspired by neumorphism.io — strictly seamless surfaces without forced insets
            ========================================================================== */
         :root {
             --nm-bg: #e0e5ec;
-            --nm-light: #ffffff;
-            --nm-dark: #a3b1c6;
-            --nm-dark-soft: #b8b9be;
+            
+            /* Soft, diffused directional shadows */
+            --nm-dark: rgba(163, 177, 198, 0.45);
+            --nm-dark-soft: rgba(163, 177, 198, 0.3);
+            --nm-light: rgba(255, 255, 255, 0.9);
+
+            /* Typography & Accents */
             --nm-accent: #2563eb;
             --nm-accent-hover: #1d4ed8;
-            --nm-success: #10b981;
-            --nm-text-main: #2d3748;
+            --nm-success: #059669;
+            --nm-text-main: #334155;
             --nm-text-muted: #64748b;
             --nm-text-sub: #475569;
 
-            /* Flat Extrusion */
-            --nm-flat-sm: 4px 4px 8px var(--nm-dark), -4px -4px 8px var(--nm-light);
-            --nm-flat-md: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
-            --nm-flat-lg: 12px 12px 24px var(--nm-dark), -12px -12px 24px var(--nm-light);
-            --nm-flat-xl: 16px 16px 32px var(--nm-dark), -16px -16px 32px var(--nm-light);
+            /* Soft Extrusions */
+            --nm-shadow-xs: 3px 3px 8px var(--nm-dark-soft), -3px -3px 8px var(--nm-light);
+            --nm-shadow-sm: 5px 5px 12px var(--nm-dark-soft), -5px -5px 12px var(--nm-light);
+            --nm-shadow-md: 8px 8px 20px var(--nm-dark), -8px -8px 20px var(--nm-light);
+            --nm-shadow-lg: 12px 12px 28px var(--nm-dark), -12px -12px 28px var(--nm-light);
+            --nm-shadow-hover: 15px 15px 34px var(--nm-dark), -15px -15px 34px var(--nm-light);
 
-            /* Inset / Sunken Wells */
-            --nm-inset-xs: inset 2px 2px 5px var(--nm-dark), inset -2px -2px 5px var(--nm-light);
-            --nm-inset-sm: inset 4px 4px 8px var(--nm-dark), inset -4px -4px 8px var(--nm-light);
-            --nm-inset-md: inset 6px 6px 12px var(--nm-dark), inset -6px -6px 12px var(--nm-light);
+            /* Gentle Pressed State (only for active clicks) */
+            --nm-shadow-pressed: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
 
-            /* Convex / Concave */
-            --nm-convex: linear-gradient(145deg, #f0f5fd, #cacfd4);
-            --nm-concave: linear-gradient(145deg, #cacfd4, #f0f5fd);
-
-            /* Border Radii */
             --radius-pill: 50px;
-            --radius-card: 28px;
+            --radius-card: 26px;
             --radius-btn: 14px;
         }
 
@@ -72,6 +68,8 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            border: none;
+            outline: none;
         }
 
         body {
@@ -82,88 +80,85 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 2rem 1rem 3rem;
+            padding: 2.5rem 1.25rem 3.5rem;
         }
 
         .container {
-            max-width: 1240px;
+            max-width: 1200px;
             margin: 0 auto;
             width: 100%;
         }
 
         /* ==========================================================================
-           Hero Header Neumorphic Box
+           Hero Section — Soft Floating Panel
            ========================================================================== */
-        header.hero-neumorphic {
+        header.hero-panel {
             background: var(--nm-bg);
-            border-radius: 36px;
-            box-shadow: var(--nm-flat-xl);
+            border-radius: 32px;
+            box-shadow: var(--nm-shadow-lg);
             padding: 3rem 2.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.75rem;
             position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
-        .hero-top-badge {
+        .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             background: var(--nm-bg);
-            box-shadow: var(--nm-inset-sm);
-            padding: 0.45rem 1.15rem;
+            box-shadow: var(--nm-shadow-xs);
+            padding: 0.4rem 1.1rem;
             border-radius: var(--radius-pill);
             font-size: 0.8rem;
             font-weight: 700;
             color: var(--nm-accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
             margin-bottom: 1.25rem;
         }
 
-        .hero-top-badge .dot {
-            width: 8px;
-            height: 8px;
+        .hero-badge .dot {
+            width: 7px;
+            height: 7px;
             background-color: var(--nm-success);
             border-radius: 50%;
-            box-shadow: 0 0 6px var(--nm-success);
         }
 
         .hero-title {
-            font-size: clamp(2rem, 3.8vw, 2.85rem);
+            font-size: clamp(2.1rem, 4vw, 2.85rem);
             font-weight: 800;
             letter-spacing: -0.03em;
             color: var(--nm-text-main);
             line-height: 1.2;
-            margin-bottom: 0.85rem;
+            margin-bottom: 0.75rem;
         }
 
         .hero-desc {
             font-size: 1.05rem;
             color: var(--nm-text-muted);
-            max-width: 780px;
+            max-width: 740px;
             margin-bottom: 2rem;
+            line-height: 1.65;
         }
 
-        .hero-identity-well {
-            background: var(--nm-bg);
-            box-shadow: var(--nm-inset-md);
-            border-radius: 20px;
-            padding: 1.25rem 1.75rem;
+        /* Biodata Mahasiswa — Clean, Soft & Unforced */
+        .hero-identity {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.75rem;
+            gap: 1.25rem;
             align-items: center;
-            max-width: fit-content;
         }
 
-        .identity-item {
+        .identity-chip {
+            background: var(--nm-bg);
+            box-shadow: var(--nm-shadow-xs);
+            border-radius: 14px;
+            padding: 0.65rem 1.15rem;
             display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
+            align-items: baseline;
+            gap: 0.5rem;
         }
 
-        .identity-item .label {
+        .identity-chip .label {
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -171,8 +166,8 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             color: var(--nm-text-muted);
         }
 
-        .identity-item .value {
-            font-size: 0.975rem;
+        .identity-chip .value {
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--nm-text-main);
         }
@@ -183,43 +178,42 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
         .stats-strip {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.75rem;
+            gap: 1.5rem;
             margin-bottom: 3.5rem;
         }
 
         .stat-card {
             background: var(--nm-bg);
-            box-shadow: var(--nm-flat-md);
-            border-radius: 22px;
-            padding: 1.4rem 1.5rem;
+            box-shadow: var(--nm-shadow-md);
+            border-radius: 20px;
+            padding: 1.35rem 1.5rem;
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: var(--nm-flat-lg);
+            box-shadow: var(--nm-shadow-lg);
         }
 
-        .stat-icon-well {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             background: var(--nm-bg);
-            box-shadow: var(--nm-inset-sm);
+            box-shadow: var(--nm-shadow-xs);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             flex-shrink: 0;
             color: var(--nm-accent);
         }
 
         .stat-info h4 {
-            font-size: 0.775rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
@@ -234,7 +228,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
         }
 
         /* ==========================================================================
-           Catalog Section & Neumorphic Cards Grid
+           Cards Catalog
            ========================================================================== */
         .section-header {
             text-align: center;
@@ -256,36 +250,29 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 2.25rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .card {
             background: var(--nm-bg);
-            box-shadow: var(--nm-flat-lg);
+            box-shadow: var(--nm-shadow-md);
             border-radius: var(--radius-card);
             padding: 2.25rem 2rem;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.45);
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 16px 16px 32px var(--nm-dark), -16px -16px 32px var(--nm-light);
+            box-shadow: var(--nm-shadow-hover);
         }
 
-        /* Featured Card: Jobsheet 8 (Convex Surface) */
+        /* Featured Card: Jobsheet 8 (Subtle Highlight) */
         .card.featured {
-            background: linear-gradient(145deg, #ebf0f7, #d8dee6);
-            box-shadow: 14px 14px 28px var(--nm-dark), -14px -14px 28px var(--nm-light);
-            border: 2px solid rgba(37, 99, 235, 0.15);
-        }
-
-        .card.featured:hover {
-            box-shadow: 18px 18px 36px var(--nm-dark), -18px -18px 36px var(--nm-light);
+            background: linear-gradient(145deg, #e4eaf2, #dbe2eb);
         }
 
         .card-top {
@@ -295,44 +282,41 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             margin-bottom: 1.15rem;
         }
 
-        .js-badge-well {
+        .js-badge {
             background: var(--nm-bg);
-            box-shadow: var(--nm-inset-xs);
-            padding: 0.35rem 0.9rem;
+            box-shadow: var(--nm-shadow-xs);
+            padding: 0.35rem 0.85rem;
             border-radius: var(--radius-pill);
             font-size: 0.775rem;
             font-weight: 700;
             color: var(--nm-text-sub);
-            letter-spacing: 0.03em;
+            letter-spacing: 0.02em;
         }
 
-        .card.featured .js-badge-well {
-            box-shadow: var(--nm-inset-sm);
+        .card.featured .js-badge {
             color: var(--nm-accent);
             font-weight: 800;
         }
 
         .type-pill {
             font-size: 0.725rem;
-            font-weight: 700;
+            font-weight: 600;
             padding: 0.3rem 0.75rem;
             border-radius: var(--radius-pill);
-            background: var(--nm-bg);
-            box-shadow: var(--nm-flat-sm);
             color: var(--nm-text-muted);
         }
 
         .card.featured .type-pill {
             background: var(--nm-accent);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
         }
 
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.275rem;
             font-weight: 800;
             letter-spacing: -0.015em;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.65rem;
             line-height: 1.35;
         }
 
@@ -349,7 +333,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
         .card-desc {
             font-size: 0.925rem;
             color: var(--nm-text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.4rem;
             flex: 1;
             line-height: 1.6;
         }
@@ -361,11 +345,11 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             margin-bottom: 1.75rem;
         }
 
-        .tech-tag-well {
+        .tech-tag {
             background: var(--nm-bg);
-            box-shadow: var(--nm-inset-xs);
+            box-shadow: var(--nm-shadow-xs);
             font-size: 0.725rem;
-            font-weight: 700;
+            font-weight: 600;
             padding: 0.25rem 0.65rem;
             border-radius: 8px;
             color: var(--nm-text-sub);
@@ -375,19 +359,18 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             display: flex;
             flex-wrap: wrap;
             gap: 0.75rem;
-            padding-top: 1.25rem;
-            border-top: 1px solid rgba(163, 177, 198, 0.25);
+            margin-top: auto;
         }
 
         /* ==========================================================================
-           Neumorphic Buttons
+           Soft Neumorphic Buttons
            ========================================================================== */
         .btn-nm {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.4rem;
-            padding: 0.7rem 1.15rem;
+            padding: 0.65rem 1.15rem;
             border-radius: var(--radius-btn);
             font-size: 0.875rem;
             font-weight: 700;
@@ -395,77 +378,74 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             user-select: none;
-            border: none;
-            outline: none;
         }
 
-        /* Primary Action Button */
+        /* Primary Button */
         .btn-nm-primary {
             background: var(--nm-bg);
-            box-shadow: var(--nm-flat-sm);
+            box-shadow: var(--nm-shadow-sm);
             color: var(--nm-accent);
             flex: 1;
         }
 
         .btn-nm-primary:hover {
             color: var(--nm-accent-hover);
-            box-shadow: 2px 2px 5px var(--nm-dark), -2px -2px 5px var(--nm-light);
+            box-shadow: var(--nm-shadow-xs);
             transform: translateY(-1px);
         }
 
         .btn-nm-primary:active {
-            box-shadow: var(--nm-inset-sm);
+            box-shadow: var(--nm-shadow-pressed);
             transform: translateY(1px);
         }
 
         /* Featured Button */
         .card.featured .btn-nm-primary {
-            background: linear-gradient(145deg, #286cfb, #215be3);
-            box-shadow: 5px 5px 12px #98a5b8, -5px -5px 12px #ffffff;
+            background: linear-gradient(145deg, #2563eb, #1d4ed8);
+            box-shadow: 4px 4px 12px rgba(37, 99, 235, 0.35), -4px -4px 12px var(--nm-light);
             color: #ffffff;
         }
 
         .card.featured .btn-nm-primary:hover {
-            background: linear-gradient(145deg, #2e71fc, #1d55d8);
-            box-shadow: 2px 2px 6px #98a5b8, -2px -2px 6px #ffffff;
+            background: linear-gradient(145deg, #2a6bf2, #1a49cc);
+            box-shadow: 2px 2px 6px rgba(37, 99, 235, 0.3), -2px -2px 6px var(--nm-light);
         }
 
         .card.featured .btn-nm-primary:active {
-            box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3), inset -3px -3px 6px rgba(255, 255, 255, 0.2);
+            box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.25);
         }
 
-        /* Secondary / Outline Button */
+        /* Secondary Button */
         .btn-nm-secondary {
             background: var(--nm-bg);
-            box-shadow: var(--nm-flat-sm);
+            box-shadow: var(--nm-shadow-xs);
             color: var(--nm-text-sub);
-            padding: 0.7rem 0.95rem;
+            padding: 0.65rem 0.95rem;
         }
 
         .btn-nm-secondary:hover {
             color: var(--nm-text-main);
-            box-shadow: 2px 2px 5px var(--nm-dark), -2px -2px 5px var(--nm-light);
+            box-shadow: 2px 2px 5px var(--nm-dark-soft), -2px -2px 5px var(--nm-light);
             transform: translateY(-1px);
         }
 
         .btn-nm-secondary:active {
-            box-shadow: var(--nm-inset-xs);
+            box-shadow: var(--nm-shadow-pressed);
             transform: translateY(1px);
         }
 
         /* ==========================================================================
-           Page Footer
+           Footer
            ========================================================================== */
         footer.page-footer {
             margin-top: 4rem;
             background: var(--nm-bg);
-            border-radius: 28px;
-            box-shadow: var(--nm-flat-md);
+            border-radius: 24px;
+            box-shadow: var(--nm-shadow-md);
             padding: 2.25rem 1.5rem;
             text-align: center;
             color: var(--nm-text-muted);
             font-size: 0.925rem;
-            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
         footer.page-footer strong {
@@ -474,20 +454,24 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
 
         @media (max-width: 768px) {
             body {
-                padding: 1rem 0.75rem 2rem;
+                padding: 1.25rem 0.85rem 2.5rem;
             }
-            header.hero-neumorphic {
+            header.hero-panel {
                 padding: 2rem 1.5rem;
                 border-radius: 24px;
             }
             .cards-grid {
                 grid-template-columns: 1fr;
             }
-            .hero-identity-well {
+            .hero-identity {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 0.85rem;
+                gap: 0.75rem;
                 width: 100%;
+            }
+            .identity-chip {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     </style>
@@ -496,27 +480,27 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
 
     <div class="container">
 
-        <!-- Neumorphic Hero Panel -->
-        <header class="hero-neumorphic">
-            <div class="hero-top-badge">
+        <!-- Soft Hero Panel -->
+        <header class="hero-panel">
+            <div class="hero-badge">
                 <span class="dot"></span>
                 <span>Portal Praktikum &bull; TI-2D</span>
             </div>
             <h1 class="hero-title">Desain &amp; Pemrograman Web</h1>
             <p class="hero-desc">Kompilasi dan repositori pengerjaan praktikum modul perpustakaan (SIMPUS-Mini) mulai dari HTML dasar hingga integrasi basis data PostgreSQL ter-deploy di Vercel.</p>
             
-            <div class="hero-identity-well">
-                <div class="identity-item">
-                    <span class="label">Nama Mahasiswa</span>
+            <div class="hero-identity">
+                <div class="identity-chip">
+                    <span class="label">Nama:</span>
                     <span class="value">Mohammad Daanii Althaaf Reivan Fadhlillah</span>
                 </div>
-                <div class="identity-item">
-                    <span class="label">Nomor Induk Mahasiswa</span>
+                <div class="identity-chip">
+                    <span class="label">NIM:</span>
                     <span class="value">254107020123</span>
                 </div>
-                <div class="identity-item">
-                    <span class="label">Kelas / Jurusan</span>
-                    <span class="value">TI-2D &bull; Teknologi Informasi</span>
+                <div class="identity-chip">
+                    <span class="label">Kelas:</span>
+                    <span class="value">TI-2D (Teknik Informatika)</span>
                 </div>
             </div>
         </header>
@@ -524,28 +508,28 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
         <!-- Stats Strip -->
         <section class="stats-strip">
             <div class="stat-card">
-                <div class="stat-icon-well">📚</div>
+                <div class="stat-icon">📚</div>
                 <div class="stat-info">
                     <h4>Total Modul</h4>
                     <p>8 Selesai</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon-well">📖</div>
+                <div class="stat-icon">📖</div>
                 <div class="stat-info">
                     <h4>Data Buku (DB)</h4>
                     <p><?php echo htmlspecialchars($totalBuku); ?></p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon-well">👥</div>
+                <div class="stat-icon">👥</div>
                 <div class="stat-info">
                     <h4>Data Anggota (DB)</h4>
                     <p><?php echo htmlspecialchars($totalAnggota); ?></p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon-well">⚡</div>
+                <div class="stat-icon">⚡</div>
                 <div class="stat-info">
                     <h4>Deployment</h4>
                     <p style="font-size: 1.05rem; color: var(--nm-success); font-weight: 800;">Live on Vercel</p>
@@ -565,15 +549,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 1 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 01</span>
+                        <span class="js-badge">Jobsheet 01</span>
                         <span class="type-pill">Static HTML</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet1/">HTML Dasar &amp; Tag Semantik</a></h3>
                     <p class="card-desc">Pondasi dasar struktur dokumen web SIMPUS-Mini menggunakan elemen semantik HTML5 murni tanpa format CSS.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">HTML5</span>
-                        <span class="tech-tag-well">Semantic Elements</span>
-                        <span class="tech-tag-well">Hyperlink</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">Semantic Elements</span>
+                        <span class="tech-tag">Hyperlink</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet1/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -585,15 +569,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 2 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 02</span>
+                        <span class="js-badge">Jobsheet 02</span>
                         <span class="type-pill">HTML + CSS</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet2/">Dasar CSS &amp; Visual Styling</a></h3>
                     <p class="card-desc">Pengaplikasian CSS eksternal, aturan hierarki pewarnaan, tipografi, box model, dan styling elemen antarmuka.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">CSS3</span>
-                        <span class="tech-tag-well">Box Model</span>
-                        <span class="tech-tag-well">External Stylesheet</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">Box Model</span>
+                        <span class="tech-tag">External Stylesheet</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet2/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -605,15 +589,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 3 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 03</span>
+                        <span class="js-badge">Jobsheet 03</span>
                         <span class="type-pill">Responsive UI</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet3/">Layout Responsif &amp; Framework CSS</a></h3>
                     <p class="card-desc">Desain responsif multi-perangkat menggunakan Bootstrap 5, navbar kolaps, dan pengaturan tata letak form modern.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">Bootstrap 5</span>
-                        <span class="tech-tag-well">Responsive Grid</span>
-                        <span class="tech-tag-well">Flexbox</span>
+                        <span class="tech-tag">Bootstrap 5</span>
+                        <span class="tech-tag">Responsive Grid</span>
+                        <span class="tech-tag">Flexbox</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet3/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -625,15 +609,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 4 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 04</span>
+                        <span class="js-badge">Jobsheet 04</span>
                         <span class="type-pill">UI/UX Design</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet4/">Wireframing &amp; Infografis Desain</a></h3>
                     <p class="card-desc">Perancangan arsitektur antarmuka, infografis alur sistem perpustakaan, dan spesifikasi wireframe terstruktur.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">Wireframing</span>
-                        <span class="tech-tag-well">UI/UX</span>
-                        <span class="tech-tag-well">Infografis</span>
+                        <span class="tech-tag">Wireframing</span>
+                        <span class="tech-tag">UI/UX</span>
+                        <span class="tech-tag">Infografis</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet4/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -645,15 +629,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 5 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 05</span>
+                        <span class="js-badge">Jobsheet 05</span>
                         <span class="type-pill">Client Script</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet5/">Manipulasi DOM &amp; Validasi Form JS</a></h3>
                     <p class="card-desc">Interaktivitas form sisi klien menggunakan JavaScript, validasi input waktu nyata, dan feedback error interaktif.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">JavaScript</span>
-                        <span class="tech-tag-well">DOM Events</span>
-                        <span class="tech-tag-well">Client Validation</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">DOM Events</span>
+                        <span class="tech-tag">Client Validation</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet5/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -665,15 +649,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 6 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 06</span>
+                        <span class="js-badge">Jobsheet 06</span>
                         <span class="type-pill">Async Data</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet6/">Pengolahan Data JSON &amp; Fetch API</a></h3>
                     <p class="card-desc">Pemuatan data katalog dan anggota secara asinkron dari berkas JSON eksternal dengan indikator pemuatan (loading state).</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">JSON</span>
-                        <span class="tech-tag-well">Fetch API</span>
-                        <span class="tech-tag-well">Async / Await</span>
+                        <span class="tech-tag">JSON</span>
+                        <span class="tech-tag">Fetch API</span>
+                        <span class="tech-tag">Async / Await</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet6/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -685,15 +669,15 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 7 -->
                 <article class="card">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 07</span>
+                        <span class="js-badge">Jobsheet 07</span>
                         <span class="type-pill">Server-side PHP</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet7/">PHP Modular &amp; Session Handling</a></h3>
                     <p class="card-desc">Arsitektur server-side dengan modular header/footer PHP, validasi form sisi server, dan penyimpanan data via Session.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">PHP 8</span>
-                        <span class="tech-tag-well">Modular Includes</span>
-                        <span class="tech-tag-well">$_SESSION State</span>
+                        <span class="tech-tag">PHP 8</span>
+                        <span class="tech-tag">Modular Includes</span>
+                        <span class="tech-tag">$_SESSION State</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet7/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
@@ -705,16 +689,16 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <!-- Jobsheet 8 (Featured Highlight) -->
                 <article class="card featured">
                     <div class="card-top">
-                        <span class="js-badge-well">Jobsheet 08 &bull; Terakhir</span>
+                        <span class="js-badge">Jobsheet 08 &bull; Terakhir</span>
                         <span class="type-pill">Full Stack CRUD</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet8/">PHP PDO &amp; Database PostgreSQL</a></h3>
                     <p class="card-desc">Integrasi basis data relasional penuh menggunakan PDO, transaksi CRUD lengkap (Tambah, Edit, Hapus), query agregasi statistik, dan multi-driver serverless.</p>
                     <div class="tech-tags">
-                        <span class="tech-tag-well">PostgreSQL</span>
-                        <span class="tech-tag-well">PHP PDO</span>
-                        <span class="tech-tag-well">Prepared Statement</span>
-                        <span class="tech-tag-well">Serverless Ready</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">PHP PDO</span>
+                        <span class="tech-tag">Prepared Statement</span>
+                        <span class="tech-tag">Serverless Ready</span>
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet8/" class="btn-nm btn-nm-primary">Buka Aplikasi SIMPUS &rarr;</a>
@@ -726,7 +710,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
             </div>
         </section>
 
-        <!-- Neumorphic Footer -->
+        <!-- Footer -->
         <footer class="page-footer">
             <p>&copy; 2026 <strong>SIMPUS-Mini Multi-Jobsheet Showcase</strong> &bull; Dibuat oleh Mohammad Daanii Althaaf Reivan Fadhlillah (TI-2D / 254107020123)</p>
             <p style="font-size: 0.825rem; margin-top: 0.35rem; color: var(--nm-text-muted);">Jurusan Teknologi Informasi &mdash; Politeknik Negeri Malang</p>
