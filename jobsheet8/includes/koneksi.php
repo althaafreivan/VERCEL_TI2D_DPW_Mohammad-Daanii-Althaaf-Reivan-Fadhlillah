@@ -4,21 +4,27 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 // Mendukung PostgreSQL via PDO (Direct / Pooler), Supabase REST API, dan SQLite Fallback.
 
 // Muat variabel lingkungan dari .env jika ada (untuk lingkungan lokal)
-$envFile = dirname(__DIR__) . '/.env';
-if (file_exists($envFile)) {
-    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        $line = trim($line);
-        if ($line === '' || str_starts_with($line, '#')) continue;
-        if (strpos($line, '=') !== false) {
-            list($key, $val) = explode('=', $line, 2);
-            $key = trim($key);
-            $val = trim($val);
-            if (!getenv($key)) {
-                putenv("$key=$val");
-                $_ENV[$key] = $val;
+$envFiles = [
+    dirname(__DIR__) . '/.env',
+    dirname(dirname(__DIR__)) . '/.env'
+];
+foreach ($envFiles as $envFile) {
+    if (file_exists($envFile)) {
+        $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#')) continue;
+            if (strpos($line, '=') !== false) {
+                list($key, $val) = explode('=', $line, 2);
+                $key = trim($key);
+                $val = trim($val);
+                if (!getenv($key)) {
+                    putenv("$key=$val");
+                    $_ENV[$key] = $val;
+                }
             }
         }
+        break;
     }
 }
 

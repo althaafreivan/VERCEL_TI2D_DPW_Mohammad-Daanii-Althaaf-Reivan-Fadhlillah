@@ -7,16 +7,11 @@
   },
   "routes": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/includes/(.*)",
+      "src": "/(.*/)?(includes|sql)/.*",
       "status": 403
     },
     {
-      "src": "/sql/(.*)",
-      "status": 403
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
