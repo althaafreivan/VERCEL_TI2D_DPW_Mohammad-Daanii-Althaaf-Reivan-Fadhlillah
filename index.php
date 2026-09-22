@@ -666,9 +666,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                         <span class="tech-tag">Serverless Ready</span>
                     </div>
                     <div class="card-actions">
-                        <a href="/jobsheet8/" class="btn-nm btn-nm-primary">Buka Aplikasi SIMPUS &rarr;</a>
-                        <a href="/jobsheet8/buku/list.php" class="btn-nm btn-nm-secondary">Daftar Buku</a>
-                        <a href="/jobsheet8/anggota/list.php" class="btn-nm btn-nm-secondary">Daftar Anggota</a>
+                        <a href="/jobsheet8/" class="btn-nm btn-nm-primary">Buka Aplikasi PixelGallery &rarr;</a>
                     </div>
                 </article>
 
