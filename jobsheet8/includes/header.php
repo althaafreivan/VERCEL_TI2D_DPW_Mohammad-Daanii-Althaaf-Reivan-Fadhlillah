@@ -29,10 +29,8 @@ $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
         <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
         <nav>
             <ul>
-                <li><a href="<?php echo $base; ?>index.php">Beranda</a></li>
-                <li><a href="<?php echo $base; ?>collection/upload-asset.php">Upload</a></li>
+                <li><a href="<?php echo $base; ?>index.php">Upload</a></li>
                 <li><a href="<?php echo $base; ?>collection/catalog.php">Galeri</a></li>
-                <li><a href="<?php echo $base; ?>panduan.php">Panduan</a></li>
             </ul>
         </nav>
     </header>
