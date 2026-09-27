@@ -57,56 +57,45 @@ function hapusError(input) {
 }
 
 function initValidasiForm() {
-    const form = document.getElementById("form-tambah");
+    const form = document.getElementById("form-tambah") || document.querySelector("form.nm-form-card");
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
         let valid = true;
 
-        const judul = form.querySelector("[name='judul'], [name='nama']");
+        const judul = form.querySelector("[name='judul']");
         if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
+            tampilkanError(judul, "Judul gambar wajib diisi.");
             valid = false;
         } else if (judul) {
             hapusError(judul);
         }
 
-        const noAnggota = form.querySelector("[name='no_anggota']");
-        if (noAnggota && noAnggota.value.trim() === "") {
-            tampilkanError(noAnggota, "No. Anggota wajib diisi.");
+        const pengunggah = form.querySelector("[name='pengunggah']");
+        if (pengunggah && pengunggah.value.trim() === "") {
+            tampilkanError(pengunggah, "Nama pengunggah wajib diisi.");
             valid = false;
-        } else if (noAnggota) {
-            hapusError(noAnggota);
-        }
-
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Pengarang wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
+        } else if (pengunggah) {
+            hapusError(pengunggah);
         }
 
         const tahun = form.querySelector("[name='tahun']");
         if (tahun) {
             const nilai = parseInt(tahun.value, 10);
-            if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
-                tampilkanError(tahun, "Tahun harus di antara 1900-2026.");
+            if (isNaN(nilai) || nilai < 1900 || nilai > 2035) {
+                tampilkanError(tahun, "Tahun harus di antara 1900-2035.");
                 valid = false;
             } else {
                 hapusError(tahun);
             }
         }
 
-        const stok = form.querySelector("[name='stok']");
-        if (stok) {
-            const nilai = parseInt(stok.value, 10);
-            if (isNaN(nilai) || nilai < 0) {
-                tampilkanError(stok, "Stok tidak boleh negatif.");
-                valid = false;
-            } else {
-                hapusError(stok);
-            }
+        const gambar = form.querySelector("[name='gambar']");
+        if (gambar && gambar.files && gambar.files.length === 0 && gambar.required) {
+            tampilkanError(gambar, "Silakan pilih file gambar.");
+            valid = false;
+        } else if (gambar) {
+            hapusError(gambar);
         }
 
         if (!valid) {

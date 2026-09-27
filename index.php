@@ -2,16 +2,16 @@
 // Portal Katalog Praktikum Desain & Pemrograman Web
 // Mohammad Daanii Althaaf Reivan Fadhlillah (TI-2D / 254107020123)
 
-$totalBuku = '-';
-$totalAnggota = '-';
+$totalGambar = '-';
+$totalPengunggah = '-';
 $dbStatus = 'Offline';
 
 if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
     try {
         require_once __DIR__ . '/jobsheet8/includes/koneksi.php';
         if (isset($pdo) && $pdo) {
-            $totalBuku = $pdo->query("SELECT COUNT(*) FROM buku")->fetchColumn();
-            $totalAnggota = $pdo->query("SELECT COUNT(*) FROM anggota")->fetchColumn();
+            $totalGambar = $pdo->query("SELECT COUNT(*) FROM galeri")->fetchColumn();
+            $totalPengunggah = $pdo->query("SELECT COUNT(DISTINCT pengunggah) FROM galeri")->fetchColumn();
             $dbStatus = 'Terhubung';
         }
     } catch (Throwable $e) {
@@ -480,17 +480,17 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">📖</div>
+                <div class="stat-icon">🖼️</div>
                 <div class="stat-info">
-                    <h4>Data Buku (DB)</h4>
-                    <p><?php echo htmlspecialchars($totalBuku); ?></p>
+                    <h4>Koleksi Gambar</h4>
+                    <p><?php echo htmlspecialchars($totalGambar); ?></p>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">👥</div>
                 <div class="stat-info">
-                    <h4>Data Anggota (DB)</h4>
-                    <p><?php echo htmlspecialchars($totalAnggota); ?></p>
+                    <h4>Pengunggah</h4>
+                    <p><?php echo htmlspecialchars($totalPengunggah); ?></p>
                 </div>
             </div>
             <div class="stat-card">
@@ -667,6 +667,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                     </div>
                     <div class="card-actions">
                         <a href="/jobsheet8/" class="btn-nm btn-nm-primary">Buka Aplikasi PixelGallery &rarr;</a>
+                        <a href="/jobsheet8/panduan.php" class="btn-nm btn-nm-secondary">Buku Panduan &rarr;</a>
                     </div>
                 </article>
 
