@@ -476,7 +476,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <div class="stat-icon">📚</div>
                 <div class="stat-info">
                     <h4>Total Modul</h4>
-                    <p>8 Selesai</p>
+                    <p>10 Selesai</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -651,23 +651,63 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                     </div>
                 </article>
 
-                <!-- Jobsheet 8 (Featured Highlight) -->
-                <article class="card featured">
+                <!-- Jobsheet 8 -->
+                <article class="card">
                     <div class="card-top">
-                        <span class="js-badge">Jobsheet 08 &bull; Terakhir</span>
-                        <span class="type-pill">Full Stack CRUD</span>
+                        <span class="js-badge">Jobsheet 08</span>
+                        <span class="type-pill">Database Integration</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet8/">PHP PDO &amp; Database PostgreSQL</a></h3>
-                    <p class="card-desc">Integrasi basis data relasional penuh menggunakan PDO, transaksi CRUD lengkap (Tambah, Edit, Hapus), query agregasi statistik, dan multi-driver serverless.</p>
+                    <p class="card-desc">Integrasi basis data relasional penuh menggunakan PDO, penyimpanan persisten Supabase cloud, streaming biner <code>gambar.php</code> teroptimasi, dan multi-driver serverless.</p>
                     <div class="tech-tags">
                         <span class="tech-tag">PostgreSQL</span>
                         <span class="tech-tag">PHP PDO</span>
-                        <span class="tech-tag">Prepared Statement</span>
-                        <span class="tech-tag">Serverless Ready</span>
+                        <span class="tech-tag">Serverless Stream</span>
                     </div>
                     <div class="card-actions">
-                        <a href="/jobsheet8/" class="btn-nm btn-nm-primary">Buka Aplikasi PixelGallery &rarr;</a>
+                        <a href="/jobsheet8/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
                         <a href="/jobsheet8/panduan.php" class="btn-nm btn-nm-secondary">Buku Panduan &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Jobsheet 9 -->
+                <article class="card">
+                    <div class="card-top">
+                        <span class="js-badge">Jobsheet 09</span>
+                        <span class="type-pill">Full CRUD &amp; Pagination</span>
+                    </div>
+                    <h3 class="card-title"><a href="/jobsheet9/">CRUD Lengkap &amp; Pagination</a></h3>
+                    <p class="card-desc">Pengembangan operasi CRUD lengkap (Edit/Update gambar dan metadata, Hapus via HTTP POST dengan konfirmasi JS), pencarian server-side, dan pagination dinamis.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Full CRUD</span>
+                        <span class="tech-tag">POST Delete</span>
+                        <span class="tech-tag">LIMIT &amp; OFFSET</span>
+                        <span class="tech-tag">Server Search</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="/jobsheet9/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
+                        <a href="/jobsheet9/collection/catalog.php" class="btn-nm btn-nm-secondary">Galeri CRUD &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Jobsheet 10 (Featured Highlight) -->
+                <article class="card featured">
+                    <div class="card-top">
+                        <span class="js-badge">Jobsheet 10 &bull; Terakhir</span>
+                        <span class="type-pill">Auth &amp; RBAC</span>
+                    </div>
+                    <h3 class="card-title"><a href="/jobsheet10/">Autentikasi &amp; Manajemen Sesi</a></h3>
+                    <p class="card-desc">Sistem autentikasi pengguna lengkap (Register, Login dengan enkripsi <code>password_hash</code>, Logout), Guard Clause sesi middleware, dan otorisasi kontrol akses peran (Admin vs User).</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">password_hash</span>
+                        <span class="tech-tag">Guard Middleware</span>
+                        <span class="tech-tag">Session Auth</span>
+                        <span class="tech-tag">Role-Based Access</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="/jobsheet10/" class="btn-nm btn-nm-primary">Buka Aplikasi Terproteksi &rarr;</a>
+                        <a href="/jobsheet10/auth/login.php" class="btn-nm btn-nm-secondary">Login &rarr;</a>
+                        <a href="/jobsheet10/auth/register.php" class="btn-nm btn-nm-secondary">Daftar</a>
                     </div>
                 </article>
 
