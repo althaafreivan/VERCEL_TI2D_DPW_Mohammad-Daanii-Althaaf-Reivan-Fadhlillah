@@ -1,0 +1,982 @@
+/* ==========================================================================
+   PixelGallery — Jobsheet 8
+   Layout & Hierarchy: Inspired by Jobsheet 7 (Clean, Structured, Semantic)
+   Artstyle: Soft Neumorphism (Clay Surface, Dual Diffused Shadows, Poppins)
+   ========================================================================== */
+
+/* ===== Reset & Base ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Base Neumorphic Surface Canvas */
+    --nm-bg: #e0e5ec;
+    --nm-light: #ffffff;
+    --nm-dark: rgba(163, 177, 198, 0.55);
+    --nm-dark-soft: rgba(163, 177, 198, 0.40);
+    --nm-dark-inset: rgba(163, 177, 198, 0.50);
+
+    /* Neumorphic Dual Shadows */
+    --nm-shadow: 6px 6px 14px var(--nm-dark-soft), -6px -6px 14px var(--nm-light);
+    --nm-shadow-sm: 3px 3px 8px var(--nm-dark-soft), -3px -3px 8px var(--nm-light);
+    --nm-shadow-lg: 10px 10px 24px var(--nm-dark-soft), -10px -10px 24px var(--nm-light);
+    --nm-shadow-pressed: inset 2px 2px 5px var(--nm-dark-inset), inset -2px -2px 5px var(--nm-light);
+
+    /* Theme Colors (Jobsheet 7 Primary Blue + Neumorphic Accents) */
+    --primary: #1d5b8a;
+    --primary-hover: #164869;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-soft: rgba(37, 99, 235, 0.08);
+
+    /* Text & Typography Colors */
+    --text-title: #1e293b;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --border-subtle: rgba(163, 177, 198, 0.35);
+
+    /* Status Colors */
+    --success: #059669;
+    --danger: #dc2626;
+    --warning: #d97706;
+
+    /* Radii */
+    --radius-sm: 6px;
+    --radius: 12px;
+    --radius-lg: 18px;
+    --radius-pill: 999px;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text-body);
+    background-color: var(--nm-bg);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* ===== Header & Navbar (Flexbox - Structured as Jobsheet 7) ===== */
+header {
+    background-color: var(--nm-bg);
+    box-shadow: 0 4px 14px var(--nm-dark-soft);
+    padding: 1rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+header h1 a {
+    color: var(--primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+header h1 a:hover {
+    text-decoration: none;
+    color: var(--accent);
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+header nav a {
+    color: var(--text-body);
+    font-weight: 600;
+    font-size: 0.925rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+header nav a:hover {
+    color: var(--accent);
+    box-shadow: var(--nm-shadow-sm);
+    text-decoration: none;
+}
+
+/* Mobile Hamburger Toggle (Jobsheet 7 app.js compatible) */
+.nav-toggle-label {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--primary);
+    background: var(--nm-bg);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.65rem;
+    box-shadow: var(--nm-shadow-sm);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.nav-toggle-label:active {
+    box-shadow: var(--nm-shadow-pressed);
+}
+
+/* ===== Main Layout (Identical to Jobsheet 7: Max Width 1000px) ===== */
+main {
+    max-width: 1000px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    flex: 1;
+}
+
+/* ===== Section & Card Surfaces (Clean Jobsheet 7 Layout) ===== */
+section {
+    background-color: var(--nm-bg);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+section h2 {
+    margin-bottom: 0.85rem;
+    color: var(--primary);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+section p {
+    color: var(--text-body);
+    line-height: 1.6;
+}
+
+/* Section Title Wrap */
+.section-title-wrap {
+    margin-bottom: 1.25rem;
+}
+
+.section-title-wrap.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.section-title-wrap h2 {
+    margin-bottom: 0;
+}
+
+.section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+}
+
+.link-more {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.link-more:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* ===== Hero Section (Toned down to match Jobsheet 7 Intro Section) ===== */
+.hero-section {
+    padding: 1.75rem;
+}
+
+.hero-headline {
+    color: var(--primary);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+}
+
+.hero-subtext {
+    font-size: 0.95rem;
+    color: var(--text-body);
+    margin-bottom: 1.25rem;
+    max-width: 800px;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+/* ===== Hero Stats (Styled exactly like Jobsheet 7 Kartu Statistik Ringkasan) ===== */
+.hero-stats,
+main section:nth-of-type(2) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-item,
+main section:nth-of-type(2) article {
+    background-color: var(--nm-bg);
+    border-radius: var(--radius-sm);
+    padding: 1.15rem 1rem;
+    text-align: center;
+    box-shadow: var(--nm-shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-item:hover,
+main section:nth-of-type(2) article:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--nm-shadow);
+}
+
+.stat-divider {
+    display: none;
+}
+
+.stat-num,
+main section:nth-of-type(2) article p {
+    display: block;
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.2;
+}
+
+.stat-label,
+main section:nth-of-type(2) article h3 {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-weight: 600;
+}
+
+/* ===== Categories Section ===== */
+.categories-section {
+    padding: 1.5rem 1.75rem;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.category-card {
+    background: var(--nm-bg);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.15rem;
+    box-shadow: var(--nm-shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--nm-shadow);
+    text-decoration: none;
+}
+
+.category-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-title);
+    margin-bottom: 0.15rem;
+}
+
+.category-card p {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+}
+
+/* ===== Gallery Grid & Cards ===== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.gallery-card {
+    background: var(--nm-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--nm-shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gallery-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--nm-shadow);
+}
+
+.gallery-thumb-wrap {
+    width: 100%;
+    height: 155px;
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: var(--nm-shadow-pressed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.gallery-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+}
+
+.gallery-card:hover .gallery-thumb {
+    transform: scale(1.03);
+}
+
+.gallery-thumb-placeholder {
+    font-size: 1.75rem;
+    color: var(--text-light);
+}
+
+.gallery-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.gallery-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+
+.cat-pill {
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-pressed);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.gallery-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-title);
+    margin-bottom: 0.35rem;
+    line-height: 1.35;
+}
+
+.asset-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.gallery-footer {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.btn-card {
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    color: var(--accent);
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    display: inline-block;
+}
+
+.btn-card:hover {
+    color: var(--accent-hover);
+    box-shadow: 2px 2px 5px var(--nm-dark-soft), -2px -2px 5px var(--nm-light);
+    text-decoration: none;
+}
+
+.btn-outline {
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-outline:hover {
+    box-shadow: 2px 2px 5px var(--nm-dark-soft), -2px -2px 5px var(--nm-light);
+}
+
+/* ===== CTA Banner (Toned down and integrated) ===== */
+.cta-banner {
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow);
+    padding: 1.75rem;
+    text-align: center;
+    border-radius: var(--radius);
+}
+
+.cta-banner h2 {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.cta-banner p {
+    font-size: 0.925rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+.cta-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+/* ===== Catalog Page Layout ===== */
+.catalog-wrapper {
+    background: var(--nm-bg);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    box-shadow: var(--nm-shadow);
+    margin-bottom: 1.5rem;
+}
+
+.page-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.back-link,
+.catalog-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.back-link:hover,
+.catalog-link:hover {
+    text-decoration: underline;
+}
+
+.catalog-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.25rem;
+}
+
+.form-title {
+    color: var(--primary);
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.form-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.catalog-search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ===== Form & Upload Page Layout ===== */
+.upload-wrapper {
+    background: var(--nm-bg);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    box-shadow: var(--nm-shadow);
+    margin-bottom: 1.5rem;
+}
+
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-header {
+    margin-bottom: 1.5rem;
+}
+
+.nm-form-card {
+    background: transparent;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+form p {
+    margin-bottom: 1.25rem;
+}
+
+form label,
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: var(--text-title);
+    font-size: 0.9rem;
+}
+
+.required-mark {
+    color: var(--danger);
+}
+
+.field-hint {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.775rem;
+    color: var(--text-muted);
+}
+
+/* Form Inputs & Tactile Insets */
+form input,
+form select,
+form textarea,
+.nm-input,
+.nm-select {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 0.925rem;
+    font-family: inherit;
+    color: var(--text-body);
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow-pressed);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus,
+.nm-input:focus,
+.nm-select:focus {
+    border-color: var(--accent);
+    box-shadow: inset 3px 3px 6px var(--nm-dark-inset), inset -3px -3px 6px var(--nm-light);
+}
+
+.search-input {
+    max-width: 280px;
+}
+
+.nm-file-dropzone {
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-pressed);
+    border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.nm-file-input {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.file-hint {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+}
+
+/* ===== Buttons (Tactile Neumorphic) ===== */
+button,
+.btn,
+.btn-primary,
+.btn-secondary {
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.35rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.925rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-primary,
+form button[type="submit"] {
+    background-color: var(--primary);
+    color: #fff;
+    box-shadow: var(--nm-shadow-sm);
+}
+
+.btn-primary:hover,
+form button[type="submit"]:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--nm-shadow);
+    text-decoration: none;
+}
+
+.btn-primary:active,
+form button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: var(--nm-shadow-pressed);
+}
+
+.btn-secondary {
+    background-color: var(--nm-bg);
+    color: var(--text-body);
+    box-shadow: var(--nm-shadow-sm);
+}
+
+.btn-secondary:hover {
+    color: var(--accent);
+    box-shadow: 2px 2px 5px var(--nm-dark-soft), -2px -2px 5px var(--nm-light);
+    text-decoration: none;
+}
+
+.btn-secondary:active {
+    box-shadow: var(--nm-shadow-pressed);
+}
+
+/* ===== Flash / Alert Notifications (Jobsheet 7 compatible) ===== */
+.flash,
+.nm-alert {
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+    box-shadow: var(--nm-shadow-sm);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.flash-success,
+.nm-alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid var(--success);
+}
+
+.flash-error,
+.nm-alert-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid var(--danger);
+}
+
+/* ===== Search Box (Jobsheet 7) ===== */
+.search-box {
+    margin-bottom: 1.25rem;
+}
+
+.search-box label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: var(--text-title);
+    font-size: 0.9rem;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow-pressed);
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* ===== Tabel (Jobsheet 7 compatible) ===== */
+.table-responsive,
+.nm-table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--nm-shadow-pressed);
+    background-color: var(--nm-bg);
+    padding: 0.25rem;
+    margin-top: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+thead {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+thead th {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.65);
+}
+
+td button {
+    padding: 0.35rem 0.75rem;
+    margin-right: 0.35rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.825rem;
+    font-weight: 600;
+    font-family: inherit;
+    box-shadow: var(--nm-shadow-sm);
+}
+
+td button:first-of-type {
+    background-color: #f59e0b;
+    color: #fff;
+}
+
+td button:last-of-type,
+td button.btn-hapus {
+    background-color: #ef4444;
+    color: #fff;
+}
+
+/* Error validation */
+.error {
+    display: block;
+    color: var(--danger);
+    font-size: 0.825rem;
+    margin-top: 0.3rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ===== Footer (Similar to Jobsheet 7) ===== */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-top: auto;
+}
+
+/* ===== Responsive Breakpoints (Jobsheet 7 Alignment) ===== */
+@media (max-width: 768px) {
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-stats,
+    main section:nth-of-type(2) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .catalog-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        position: relative;
+    }
+
+    .nav-toggle-label {
+        display: block;
+    }
+
+    header nav {
+        display: none;
+        width: 100%;
+        order: 3;
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border-subtle);
+    }
+
+    header nav.nav-open {
+        display: block;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    header nav a {
+        display: block;
+        padding: 0.6rem 0.85rem;
+    }
+
+    .hero-stats,
+    main section:nth-of-type(2) {
+        grid-template-columns: 1fr;
+    }
+
+    .category-grid,
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    form input,
+    form select,
+    form textarea,
+    .search-box input {
+        max-width: 100%;
+    }
+}
+
+/* ===== Pagination Server-side (Jobsheet 9) ===== */
+.btn-pagination {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-body);
+    background: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-pagination:hover:not(.disabled) {
+    color: var(--accent);
+    box-shadow: var(--nm-shadow);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.btn-pagination.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: var(--nm-shadow-pressed);
+}
+
+.btn-pagination.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+

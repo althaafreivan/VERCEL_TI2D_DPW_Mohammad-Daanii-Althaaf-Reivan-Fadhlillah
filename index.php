@@ -476,7 +476,7 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                 <div class="stat-icon">📚</div>
                 <div class="stat-info">
                     <h4>Total Modul</h4>
-                    <p>10 Selesai</p>
+                    <p>12 Selesai</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -690,10 +690,10 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                     </div>
                 </article>
 
-                <!-- Jobsheet 10 (Featured Highlight) -->
-                <article class="card featured">
+                <!-- Jobsheet 10 -->
+                <article class="card">
                     <div class="card-top">
-                        <span class="js-badge">Jobsheet 10 &bull; Terakhir</span>
+                        <span class="js-badge">Jobsheet 10</span>
                         <span class="type-pill">Auth &amp; RBAC</span>
                     </div>
                     <h3 class="card-title"><a href="/jobsheet10/">Autentikasi &amp; Manajemen Sesi</a></h3>
@@ -705,9 +705,49 @@ if (file_exists(__DIR__ . '/jobsheet8/includes/koneksi.php')) {
                         <span class="tech-tag">Role-Based Access</span>
                     </div>
                     <div class="card-actions">
-                        <a href="/jobsheet10/" class="btn-nm btn-nm-primary">Buka Aplikasi Terproteksi &rarr;</a>
+                        <a href="/jobsheet10/" class="btn-nm btn-nm-primary">Buka Modul &rarr;</a>
                         <a href="/jobsheet10/auth/login.php" class="btn-nm btn-nm-secondary">Login &rarr;</a>
-                        <a href="/jobsheet10/auth/register.php" class="btn-nm btn-nm-secondary">Daftar</a>
+                    </div>
+                </article>
+
+                <!-- Jobsheet 11 -->
+                <article class="card">
+                    <div class="card-top">
+                        <span class="js-badge">Jobsheet 11</span>
+                        <span class="type-pill">Web Security Hardening</span>
+                    </div>
+                    <h3 class="card-title"><a href="/jobsheet11/">Keamanan Aplikasi Web Dasar</a></h3>
+                    <p class="card-desc">Audit dan hardening keamanan menyeluruh: 100% Prepared Statements (anti-SQLi), sanitasi XSS dengan <code>htmlspecialchars</code>, token CSRF berbasis sesi dengan <code>hash_equals</code>, dan Session Fixation protection.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">SQLi Prevention</span>
+                        <span class="tech-tag">XSS Sanitization</span>
+                        <span class="tech-tag">CSRF Tokens</span>
+                        <span class="tech-tag">Session Fixation</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="/jobsheet11/" class="btn-nm btn-nm-primary">Buka Aplikasi Aman &rarr;</a>
+                        <a href="/jobsheet11/docs/security-checklist.md" class="btn-nm btn-nm-secondary">Audit Checklist &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Jobsheet 12 (Featured Highlight) -->
+                <article class="card featured">
+                    <div class="card-top">
+                        <span class="js-badge">Jobsheet 12 &bull; Terintegrasi</span>
+                        <span class="type-pill">Full System Integration</span>
+                    </div>
+                    <h3 class="card-title"><a href="/jobsheet12/">Integrasi Sistem &amp; Transaksi Peminjaman</a></h3>
+                    <p class="card-desc">Puncak integrasi sistem end-to-end: Transaksi ACID peminjaman &amp; pengembalian lisensi aset foto digital, relasi 3 tabel (<code>peminjaman</code>, <code>galeri</code>, <code>users</code>), aturan bisnis peminjaman > 14 hari, dan dashboard statistik real-time.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">ACID Transactions</span>
+                        <span class="tech-tag">Multi-Table JOIN</span>
+                        <span class="tech-tag">Business Rules</span>
+                        <span class="tech-tag">Real-time Stats</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="/jobsheet12/" class="btn-nm btn-nm-primary">Buka Sistem Terintegrasi &rarr;</a>
+                        <a href="/jobsheet12/peminjaman/tambah.php" class="btn-nm btn-nm-secondary">Pinjam Lisensi &rarr;</a>
+                        <a href="/jobsheet12/peminjaman/riwayat.php" class="btn-nm btn-nm-secondary">Riwayat Transaksi</a>
                     </div>
                 </article>
 
