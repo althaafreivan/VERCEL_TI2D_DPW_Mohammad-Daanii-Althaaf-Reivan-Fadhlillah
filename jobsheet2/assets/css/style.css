@@ -1,170 +1,399 @@
-main{
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-section{
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-section h2{
-  margin-bottom: 1rem;
-  color: #1d5b8a;
-}
-
-header{
-  background-color: #1d5b8a;
-  color: #000000;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
+/* ===== Reset & Base ===== */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-body{
-  font-family: 'Segoe UI', Arial, sans-serif;
-  color: #2b2b2b;
-  background-color: #f5f6f8;
-  line-height: 1.5;
+body {
+    font-family: "Segoe UI";
+    /* Cahaya hangat: Dark slate base with precise radial gradients */
+    background-color: #1d1d33;
+    background-image: 
+        radial-gradient(circle at 86% 2%, rgba(167, 123, 86, 0.40) 0%, transparent 60%),
+        radial-gradient(circle at 6% 72%, rgba(167, 118, 69, 0.21) 0%, transparent 60%);
+    background-attachment: fixed;
+    color: #F4F5FB;
+    line-height: 1.5;
 }
 
-a{
-  color: #0d263a;
-  text-decoration: none;
+a {
+    color: #e6a760;
+    text-decoration: none;
 }
 
-a:hover{
-  text-decoration: underline;
+a:hover {
+    text-decoration: underline;
 }
 
-header nav ul{
-  list-style: none;
-  display: flex;
-  gap: 1.25rem;
+/* ===== Navigasi utama (Header) ===== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 95px;
+    padding: 0 68px;
+    background-color: rgba(244, 245, 251, 0.05);
+    border-bottom: 1px solid rgba(232, 233, 245, 0.19);
 }
 
-header nav a{
-  color: #fff;
+header h1 {
+    /* Identitas */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #F4F5FB;
+    font-size: 20px;
+    font-weight: 600;
 }
 
-main section:nth-of-type(2) div{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+header h1::before {
+    content: "";
+    display: inline-block;
+    width: 31px;
+    height: 33px;
+    background: url("../svg/Lambang%20perpustakaan.svg") no-repeat center;
+    background-size: contain;
+    flex-shrink: 0;
 }
 
-main section:nth-of-type(2) article{
-  background-color: #eef4fa;
-  border-radius: 8px;
-  padding: 1.25rem;
-  text-align: center;
+.nav-toggle {
+    display: none;
 }
 
-main section:nth-of-type(2) article h3{
-  font-size: 0.95rem;
-  color: #55677a;
-  margin-bottom: 0.5rem;
+.nav-toggle-label {
+    display: none;
+    font-size: 1.6rem;
+    color: #F4F5FB;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-main section:nth-of-type(2) article p{
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1d5b8a;
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
 }
 
-table{
-  width: 100%;
-  border-collapse: collapse;
+header nav a {
+    /* Tautan navigasi */
+    color: #F4F5FB;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 12px 18px;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
 }
 
-th, td{
-  text-align: left;
-  padding: .65rem .75rem;
-  border-bottom: 1px solid #e2e6ea;
+header nav a:hover {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-thead{
-  background-color: #1d5b8a;
-  color: #fff;
+/* ===== Konten halaman (Main) ===== */
+main {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 44px 132px; /* Perfect Figma padding */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-tbody tr:nth-child(even){
-  background-color: #f7f9fb;
+/* ===== Judul Halaman & Kontainer ===== */
+section {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* itemSpacing connecting Judul to Formulir */
 }
 
-tbody tr:hover{
-  background-color: #eef4fa;
+section h2 {
+    /* Judul */
+    font-size: 40px;
+    font-weight: 700;
+    color: #F4F5FB;
+    margin-bottom: 0;
 }
 
-td button{
-  padding: .35rem .7rem;
-  margin-right: .35rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: .85rem;
+/* ===== Formulir (Card) ===== */
+form {
+    /* Pendaftaran anggota card */
+    background-color: rgba(244, 245, 251, 0.04);
+    border: 1px solid rgba(232, 233, 245, 0.19);
+    border-radius: 22px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-td button:first-of-type{
-  background-color: #f0ad4e;
-  color: #fff;
+form p {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between label and input */
 }
 
-td button:last-of-type{
-  background-color: #d9534f;
-  color: #fff;
-}
-
-form p{
-  margin-bottom: 1rem;
-}
-
-form label{
-  display: block;
-  margin-bottom: .1rem;
-  font-weight: 600;
-  color: #444;
+form label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #F4F5FB;
+    margin: 0;
 }
 
 form input,
-form select{
-  width: 100%;
-  max-width: 400px;
-  padding: .55rem, .7rem;
-  border: 1px solid #cdd4da;
-  border-radius: 4px;
-  font-size: 1rem;
+form select {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: rgba(20, 20, 37, 0.4);
+    border: 1px solid rgba(232, 233, 245, 0.19);
+    border-radius: 12px;
+    color: #F4F5FB;
+    font-size: 15px;
+    font-family: "Inter", sans-serif;
+    transition: border-color 0.3s ease;
 }
 
-form button[type="submit"]{
-  background-color: #1d5b8a;
-  color: #fff;
-  border: none;
-  padding: .6rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+form input:focus,
+form select:focus {
+    outline: none;
+    border-color: #F4F5FB;
+    background-color: rgba(20, 20, 37, 0.6);
 }
 
-form button[type="submit"]:hover{
-  background-color: #164869;
+form button[type="submit"] {
+    background-color: #F4F5FB;
+    color: #1a1614;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 100px; /* Pill shape */
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 8px;
+    transition: opacity 0.3s ease;
 }
 
-footer{
-  text-align: center;
-  padding: 1.25rem;
-  color: #7a8794;
-  font-size: .9rem;
+form button[type="submit"]:hover {
+    opacity: 0.85;
+}
+
+/* ===== Kolom Pencarian ===== */
+.search-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin-bottom: 8px;
+}
+
+.search-box label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #F4F5FB;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 14px 16px;
+    background-color: rgba(20, 20, 37, 0.4);
+    border: 1px solid rgba(232, 233, 245, 0.19);
+    border-radius: 12px;
+    color: #F4F5FB;
+    font-size: 15px;
+    font-family: "Inter", sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #F4F5FB;
+    background-color: rgba(20, 20, 37, 0.6);
+}
+
+/* ===== Tabel ===== */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: rgba(244, 245, 251, 0.04);
+    border: 1px solid rgba(232, 233, 245, 0.19);
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: left;
+    padding: 16px 28px;
+    border-bottom: 1px solid rgba(232, 233, 245, 0.19);
+    color: #F4F5FB;
+}
+
+thead {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+thead th {
+    font-weight: 600;
+    font-size: 14px;
+    color: #bbbacb;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Aksi Tabel (Tombol Edit & Hapus) */
+td button {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    border: 1px solid rgba(232, 233, 245, 0.19);
+    cursor: pointer;
+    background-color: rgba(244, 245, 251, 0.08);
+    color: #F4F5FB;
+    transition: all 0.2s ease;
+    margin-right: 6px;
+}
+
+td button:hover {
+    background-color: rgba(244, 245, 251, 0.18);
+}
+
+td button.btn-hapus,
+td button:last-of-type {
+    color: #ff9d9d;
+    border-color: rgba(255, 157, 157, 0.3);
+    background-color: rgba(255, 157, 157, 0.1);
+}
+
+td button.btn-hapus:hover,
+td button:last-of-type:hover {
+    background-color: rgba(255, 157, 157, 0.2);
+}
+
+/* Status & Pesan */
+.error {
+    display: block;
+    color: #ff9d9d;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+#loading-indicator {
+    color: #bbbacb;
+    font-size: 14px;
+}
+
+/* ===== Dashboard (Ringkasan) ===== */
+/* Mendukung langsung section maupun wrapper div lama */
+section:nth-of-type(2),
+section:nth-of-type(2) > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+section:nth-of-type(2) h2 {
+    width: 100%;
+}
+
+section:nth-of-type(2) > div {
+    width: 100%;
+}
+
+article {
+    flex: 1 1 200px;
+    background-color: rgba(244, 245, 251, 0.05);
+    border: 1px solid rgba(232, 233, 245, 0.25);
+    border-radius: 22px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+article h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #F4F5FB;
+    margin: 0;
+}
+
+article p {
+    font-size: 36px;
+    font-weight: 700;
+    color: #F4F5FB;
+    margin: 0;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    padding: 0 132px 44px 132px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+}
+
+/* ===== Responsive Breakpoints ===== */
+@media (max-width: 768px) {
+    main {
+        padding: 32px;
+    }
+    header {
+        padding: 0 32px;
+    }
+    footer {
+        padding: 0 32px 32px 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1.5rem;
+        height: auto;
+    }
+    
+    .nav-toggle-label {
+        display: block;
+    }
+
+    header nav {
+        display: none;
+        width: 100%;
+        order: 3;
+        margin-top: 1rem;
+    }
+
+    header nav.nav-open,
+    .nav-toggle:checked ~ nav {
+        display: block;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 }
