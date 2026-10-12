@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../includes/session.php';
 
 $judul = trim($_POST['judul'] ?? '');
 $pengarang = trim($_POST['pengarang'] ?? '');

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/session.php';
 
 // Prefix relatif ke root proyek ini (bukan root domain) — supaya
 // /assets, /index.php, dst tetap benar walau proyek diakses lewat
@@ -24,7 +24,6 @@ $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
         <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
         <nav>
             <ul>
-                <li><a href="/">🏠 Portal</a></li>
                 <li><a href="<?php echo $base; ?>index.php">Beranda</a></li>
                 <li><a href="<?php echo $base; ?>buku/list.php">Daftar Buku</a></li>
                 <li><a href="<?php echo $base; ?>buku/tambah.php">Tambah Buku</a></li>
